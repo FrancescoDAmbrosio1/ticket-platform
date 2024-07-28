@@ -1,7 +1,6 @@
 package org.lessons.tickets.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,8 +32,12 @@ public class Note {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	
-	@OneToMany(mappedBy = "note")
-	public List<Ticket> tickets;
+	@ManyToOne
+	@JoinColumn(name = "ticket_id")
+	private Ticket tickets;
+	
+//	@OneToMany(mappedBy = "note")
+//	public List<Ticket> tickets;
 
 	public Integer getId() {
 		return id;
@@ -77,11 +79,4 @@ public class Note {
 		this.user = user;
 	}
 
-	public List<Ticket> getTickets() {
-		return tickets;
-	}
-
-	public void setTickets(List<Ticket> tickets) {
-		this.tickets = tickets;
-	}
 }

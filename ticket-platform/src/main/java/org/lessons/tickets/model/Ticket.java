@@ -27,17 +27,9 @@ public class Ticket {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name = "note_id", nullable = false)
-	private Note note;
-
-	public Note getNote() {
-		return note;
-	}
-
-	public void setNote(Note note) {
-		this.note = note;
-	}
+//	@ManyToOne
+//	@JoinColumn(name = "note_id")
+//	private Note note;
 
 	public Integer getId() {
 		return id;
