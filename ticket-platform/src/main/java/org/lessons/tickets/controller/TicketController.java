@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.lessons.tickets.model.Ticket;
 import org.lessons.tickets.model.User;
+import org.lessons.tickets.repository.NoteRepository;
 import org.lessons.tickets.repository.TicketRepository;
 import org.lessons.tickets.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,9 @@ public class TicketController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private NoteRepository noteRepository;
 	
 	@GetMapping
 	public String ticketDashboard(Model model) {
@@ -71,11 +76,30 @@ public class TicketController {
 	}
 	
 	@GetMapping("/show/{id}")
-	public String show(@PathVariable("id") Integer pizzaId, Model model) {
+	public String show(@PathVariable("id") Integer ticketId, Model model) {
 		
-		model.addAttribute("ticket", ticketRepository.getReferenceById(pizzaId));
+		model.addAttribute("list", noteRepository.findAll(Sort.by(Sort.Direction.DESC,"creationNoteDate")));
+		
+		model.addAttribute("ticket", ticketRepository.getReferenceById(ticketId));
 		
 		return "tickets/show";
+	}
+	
+	@GetMapping("/search")
+	public String search(@Param("input") String input, Model model) {
+
+		List<Ticket> list = new ArrayList<Ticket>();
+		
+		if(!input.isEmpty()) {
+			
+			list = ticketRepository.search(input);
+			
+		} 
+			
+		model.addAttribute("list", list);	
+		
+		return "tickets/index";
+		
 	}
 
 }

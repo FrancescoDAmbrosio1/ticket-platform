@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<title>Inserimento Nota </title>
+</head>
+<body>
+	<div class="container" style="padding: 20px;">
+		<form id="ticket-form"
+				th:object="${note}" 
+				th:action="@{/note/create}"
+				method="post">
+					<div class="mb-3">
+						
+					</div>
+					<div class="mb-3">
+						<div class="mb-3">
+							<label for="inputNoteAuthor" class="form-label">Autore della nota</label>
+							<input 	type="hidden" id="inputNoteAuthor" th:field="*{user}">					
+						</div>
+						<div class="mb-3">
+							<label for="inputNoteDate" class="form-label">Inserisci la data</label>
+							<input type="date" class="form-control" 
+								id="inputNoteDate" placeholder="Seleziona la data..."
+								th:field="*{creationNoteDate}">					
+						</div>
+						<div class="mb-3">
+							<label for="ticketInputNote" class="form-label">Inserisci la nota al ticket</label>
+							<div>
+								<textarea class="form-control" aria-label="With textarea" 
+									id="ticketInputNote" placeholder="Inserisci qui il testo della nota..."
+									th:field="*{noteText}">						
+								</textarea>	
+							</div>
+						</div>
+					</div>
+					<div style="display: flex; justify-content:space-evenly; padding-top: 20px;">
+						<div>
+							<a th:href="@{/main}" class="btn" style="background-color: green;
+								color: whitesmoke;">Torna al Menu</a>
+						</div>
+						<div>
+							<button type="submit" class="btn mb-3" style="background-color: green; 
+								color: whitesmoke;">Salva</button>
+						</div>
+					</div>
+		</form>
+	</div>
+	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -17,13 +17,40 @@
 		    	<h3 class="card-title"
 					th:text="${ticket.ticketTitle}"></h3>
 					<h5>Note relativa al ticket:</h5>
-					<ul>
-						<li th:each="note: ${ticket.notes}" 
-							th:text="${note.noteName}">
-						</li>	
-					</ul>
+					<table id="table-1" class="table table-striped"
+											th:unless="${list.isEmpty()}">
+											<thead>
+												<tr>
+													<th class="col-3"> Data Creazione </th>
+													<th class="col-3"> Autore </th>
+													<th class="col-6"> Testo </th>
+													
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="note : ${list}">
+													<td th:text="${note.getCreationNoteDate()}">
+													</td>
+													<td th:text="${note.user.getSurname()} ${note.user.getName()}
+																 - Matr.${note.user.getIdentifierNumber()}|">
+													</td>
+													<td th:text="${note.getNoteText()}"></span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										<div th:if="${list.isEmpty()}">
+											<span> Non sono presenti note per il ticket selezionato </span>
+										</div>
+<!--					<ul>-->
+<!--						<li th:each="note: ${ticket.notes}" -->
+<!--							th:text="${note.noteName}">-->
+<!--						</li>	-->
+<!--					</ul>-->
 				<div style="display: flex; justify-content: space-around; text-align: center;">
-					<a th:href="@{/pizze}" class="btn" style="background-color: green;
+					<a th:href="@{/note/create}" class="btn" style="background-color: green;
+							color: whitesmoke;">Aggiungi Nota</a>			
+					<a th:href="@{/main}" class="btn" style="background-color: green;
 							color: whitesmoke;">Torna al Menu</a>						
 				</div>
 		  	</div>

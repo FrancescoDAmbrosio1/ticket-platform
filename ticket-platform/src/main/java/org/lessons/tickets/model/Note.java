@@ -19,9 +19,6 @@ public class Note {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "nome", nullable = false)
-	private String noteName;
-	
 	@Column(name = "creazione", nullable = false)
 	private LocalDate creationNoteDate;
 	
@@ -34,7 +31,7 @@ public class Note {
 	
 	@ManyToOne
 	@JoinColumn(name = "ticket_id")
-	private Ticket tickets;
+	private Ticket ticket;
 	
 //	@OneToMany(mappedBy = "note")
 //	public List<Ticket> tickets;
@@ -43,16 +40,16 @@ public class Note {
 		return id;
 	}
 
+	public Ticket getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getNoteName() {
-		return noteName;
-	}
-
-	public void setNoteName(String noteName) {
-		this.noteName = noteName;
 	}
 
 	public LocalDate getCreationNoteDate() {

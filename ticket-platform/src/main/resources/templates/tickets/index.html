@@ -21,8 +21,24 @@
 <div>
 	<a th:href="@{/main/create}" class="btn" style="background-color: green;
 		color: whitesmoke;">Aggiungi un ticket</a>
+		<div style="margin-top: 20px; margin-bottom: 20px;">
+						<form class="d-flex" role="search"
+							th:object="${ticket}" 
+							th:action="@{/main/search}"
+							method="get">
+							<input class="form-control me-2 bg-white" type="text" 
+								placeholder="Cerca il ticket..." aria-label="Search"
+								name="input">
+							<div class="container-fluid d-flex gap-1">
+								<button class="btn" type="submit" style="background-color: green;
+									color: whitesmoke;">Cerca</button>
+								<a class="btn" style="background-color: green; color: whitesmoke;"
+									th:href="@{/main}">Annulla</a>	
+							</div>
+					</form>
+				</div>
 </div>
-<table id="table-1" class="table table-striped"
+<table id="table-1" class="table table-striped "
 						th:unless="${list.isEmpty()}">
 						<thead>
 							<tr>
@@ -34,21 +50,27 @@
 						</thead>
 						<tbody>
 							<tr th:each="ticket : ${list}">
-								<td th:text="${ticket.ticketTitle}">
-									<a class="btn" style="background-color: green;
-										color: whitesmoke;"
-										th:href="@{/main/show/${ticket.id}}"><i class="bi bi-search"></i>
+								<td>
+									<div class="container-fluid d-flex gap-1">
+										<span th:text="${ticket.ticketTitle}"></span> 
+										<a class="btn" style="background-color: green;
+											color: whitesmoke;"
+											th:href="@{|/main/show/${ticket.id}|}"><i class="bi bi-plus"></i>
 										</a>
+									</div>
 								</td>
-								<td th:text="${ticket.user}"
+								<td th:text="|${ticket.user.getSurname()} ${ticket.user.getName()}
+											 - Matr.${ticket.user.getIdentifierNumber()}|"
 								</td>
-								<td th:text="${ticket.ticketState}"></td>
+								<td>
+									<span style="background-color: lightgreen; border-radius: 3;"
+									th:text="${ticket.ticketState}"></span>
+								</td>
 								<td>
 									<div class="container-fluid d-flex gap-1">
 										<a class="btn" style="background-color: green;
 											color: whitesmoke;"
-											th:href="@{#}"><i class="bi bi-cross"></i>
-<!--											th:href="@{/note/create}"><i class="bi bi-cross"></i>-->
+											th:href="@{/note/create}">Aggiungi Nota<i class="bi bi-plus"></i>
 										</a>
 									</div>
 								</td>
