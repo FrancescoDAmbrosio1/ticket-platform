@@ -18,30 +18,32 @@
 <div class="container">
 	
 <h1>Tickets</h1>
-<div>
-	<a th:href="@{/main/create}" class="btn btn-primary"
-		style="color: whitesmoke;">Aggiungi un ticket</a>
-		<div style="margin-top: 20px; margin-bottom: 20px;">
-						<form class="d-flex" role="search"
-							th:object="${ticket}" 
-							th:action="@{/main/search}"
-							method="get">
-							<input class="form-control me-2 bg-white" type="text" 
-								placeholder="Cerca il ticket..." aria-label="Search"
-								name="input">
-							<div class="container-fluid d-flex gap-1">
-								<button class="btn btn-primary" type="submit" style="color: whitesmoke;">Cerca</button>
-								<a class="btn btn-primary" style="color: whitesmoke;"
-									th:href="@{/main}">Annulla</a>	
-							</div>
-					</form>
+<div class="row d-flex justify-content-between mb-3">
+	<div class="col-5">
+		<a th:href="@{/main/create}" class="btn btn-primary"
+			style="color: whitesmoke;">Aggiungi un ticket</a>		
+	</div>
+	<div class="col-5">
+		<form class="d-flex" role="search"
+			th:object="${ticket}" 
+			th:action="@{/main/search}"
+			method="get">
+			<input class="form-control me-2 bg-white" type="text" 
+				placeholder="Cerca ticket per Titolo..." aria-label="Search"
+				name="input">
+				<div class="container-fluid d-flex gap-1">
+					<button class="btn btn-primary" type="submit" style="color: whitesmoke;">Cerca</button>
+						<a class="btn btn-primary" style="color: whitesmoke;"
+							th:href="@{/main}">Annulla</a>	
 				</div>
+		</form>
+	</div>
 </div>
 <table id="table-1" class="table table-striped "
 						th:unless="${list.isEmpty()}">
 						<thead>
 							<tr>
-								<th class="col-3">Nome</th>
+								<th class="col-3">Titolo</th>
 								<th class="col-3">Categoria </th>
 								<th class="col-2">Stato </th>
 								<th class="col-4">Azioni </th>
@@ -69,6 +71,9 @@
 									<div class="container-fluid d-flex gap-1">
 										<a class="btn btn-primary" style="color: whitesmoke;"
 											th:href="@{|/main/show/${ticket.id}|}"><i class="bi bi-search"></i>
+										</a>
+										<a class="btn btn-primary" style="color: whitesmoke;"
+											th:href="@{|/main/edit/${ticket.id}|}"><i class="bi bi-pencil"></i>
 										</a>
 										<form th:action="@{'/main/delete/{id}'(id=${ticket.id})}"
 												method="post">

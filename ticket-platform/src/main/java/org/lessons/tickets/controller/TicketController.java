@@ -63,7 +63,7 @@ public class TicketController {
 
 		model.addAttribute("user", new User());
 
-		model.addAttribute("userList", userRepository.findAll(Sort.by(Sort.Direction.ASC, "name")));
+		model.addAttribute("userList", userRepository.searchAvailableUsers());
 		
 		model.addAttribute("categoryList", categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "categoryName")));
 		
@@ -122,4 +122,31 @@ public class TicketController {
 		return "redirect:/main";
 	}
 
+	@GetMapping("/edit/{id}")
+	public String editPage(@PathVariable("id") Integer id, Model model) {
+		
+		model.addAttribute("ticket", ticketRepository.getReferenceById(id));
+		
+		model.addAttribute("userList", userRepository.searchAvailableUsers());
+		
+		model.addAttribute("categoryList", categoryRepository.findAll());
+		
+		return "/tickets/edit";
+	}
+	
+	@PostMapping("/edit/{id}")
+	public String update(@Valid @ModelAttribute("ticket") Ticket ticket,
+			BindingResult bindingResult, Model model) {
+		
+	
+		if(bindingResult.hasErrors()) {
+			
+			return "/tickets/edit";
+		}
+	
+		ticketRepository.save(ticket);
+		
+		return "redirect:/main";
+		
+	}
 }

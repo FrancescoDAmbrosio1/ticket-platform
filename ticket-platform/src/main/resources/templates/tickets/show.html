@@ -12,46 +12,71 @@
 </head>
 <body style="background-color: rgb(203, 250, 238);">
 	<div class="container" style="padding: 20px;">
-		<div class="card" style="width: 20rem; margin: auto;">
+		<div class="card" style="width: auto; margin: auto;">
 		  	<div class="card-body">
 		    	<h3 class="card-title"
-					th:text="${ticket.ticketTitle}"></h3>
-					<h5>Note relativa al ticket:</h5>
-					<table id="table-1" class="table table-striped"
-											th:unless="${list.isEmpty()}">
-											<thead>
-												<tr>
-													<th class="col-3"> Data Creazione </th>
-													<th class="col-3"> Autore </th>
-													<th class="col-6"> Testo </th>
-													
-												</tr>
-											</thead>
-											<tbody>
-												<tr th:each="note : ${list}">
-													<td th:text="${note.getCreationNoteDate()}">
-													</td>
-													<td th:text="${note.user.getSurname()} ${note.user.getName()}
-																 - Matr.${note.user.getIdentifierNumber()}|">
-													</td>
-													<td th:text="${note.getNoteText()}"></span>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										<div th:if="${list.isEmpty()}">
-											<span> Non sono presenti note per il ticket selezionato </span>
-										</div>
-<!--					<ul>-->
-<!--						<li th:each="note: ${ticket.notes}" -->
-<!--							th:text="${note.noteName}">-->
-<!--						</li>	-->
-<!--					</ul>-->
-				<div style="display: flex; justify-content: space-around; text-align: center;">
-					<a th:href="@{/note/create}" class="btn" style="background-color: green;
-							color: whitesmoke;">Aggiungi Nota</a>			
-					<a th:href="@{/main}" class="btn" style="background-color: green;
-							color: whitesmoke;">Torna al Menu</a>						
+					th:text="|Dettaglio Ticket: ${ticket.ticketTitle}"></h3>
+					<div class="container mb-3">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<span><strong>Titolo: </strong></span>
+								<span th:text="${ticket.getTicketTitle()}"></span>
+							</li>
+							<li class="list-group-item">
+								<span><strong>Categoria: </strong></span>
+								<span th:text="${ticket.category.getCategoryName()}"></span>
+							</li>
+							<li class="list-group-item">
+								<span><strong>Stato Avanzamento: </strong></span>
+								<span th:if="${ticket.ticketState == 'completato'}"
+										class=" badge text-bg-success"
+										th:text="Completato "></span>
+								<span th:if="${ticket.ticketState == 'daFare'}"
+										class=" badge text-bg-danger"
+										th:text="|Da Fare|"></span>
+								<span th:if="${ticket.ticketState == 'inCorso'}"
+										class=" badge text-bg-warning"
+										th:text="|In Corso|"></span>
+							</li>
+							<li class="list-group-item">
+								<span><strong>Operatore: </strong></span>
+								<span th:text="|${ticket.user.getSurname()} ${ticket.user.getName()}"></span>
+							</li>
+						</ul>
+						
+					</div>
+					<div class="container mb-3">
+						<h3>Note relativa al ticket:</h3>
+						<table id="table-1" class="table table-striped"
+							th:unless="${list.isEmpty()}">
+							<thead>
+								<tr>
+									<th class="col-3"> Data Creazione </th>
+									<th class="col-3"> Autore </th>
+									<th class="col-6"> Testo </th>			
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="note : ${list}">
+									<td th:text="${note.getCreationNoteDate()}">
+									</td>
+									<td th:text="${note.user.getSurname()} ${note.user.getName()}
+										 - Matr.${note.user.getIdentifierNumber()}|">
+									</td>
+									<td th:text="${note.getNoteText()}"></span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div th:if="${list.isEmpty()}" style="text-align: center;">
+						<span> Non sono presenti note per il ticket selezionato </span>
+					</div>
+				<div class="d-flex justify-content-evenly p-3">
+					<a th:href="@{/note/create}" class="btn btn-primary" style="color: whitesmoke;">
+							Aggiungi Nota</a>			
+					<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;">
+							Torna alla Dashboard</a>						
 				</div>
 		  	</div>
  		</div>

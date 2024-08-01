@@ -15,18 +15,18 @@
 <title>Operatori </title>
 </head>
 <body style="background-color: rgb(203, 250, 238);">
-<div class="container">
-	
-<h1>Elenco Operatori</h1>
-<table id="table-1" class="table table-striped align-items-center"
+<div class="container" 	style="padding: 20px;">
+	<h1>Elenco Operatori</h1>
+	<table id="table-1" class="table table-striped align-items-center"
 						th:unless="${list.isEmpty()}">
 						<thead>
 							<tr>
-								<th class="col-3"> Cognome </th>
-								<th class="col-3"> Nome </th>
+								<th class="col-2"> Cognome </th>
+								<th class="col-2"> Nome </th>
 								<th class="col-2"> Matricola </th>
 								<th class="col-2"> Stato </th>
-								<th class="col-2"></th>
+								<th class="col-2"> N° ticket</th>
+								<th class="col-2" style="text-align: center;"> Azioni</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -48,7 +48,10 @@
 									class=" badge text-bg-danger"
 										th:text="|Non Disponibile|"></span>
 								</td>
-								<td class="d-flex justify-content-end gap-2">
+								<td>
+									<span th:text="${user.tickets.size()}"></span>
+								</td>
+								<td class="d-flex justify-content-center gap-2">
 									<a class="btn btn-primary" style="color: whitesmoke;"
 										th:href="@{|/user/show/${user.id}|}"><i class="bi bi-search"></i>
 									</a>

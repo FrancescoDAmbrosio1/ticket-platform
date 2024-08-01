@@ -3,6 +3,7 @@ package org.lessons.tickets.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lessons.tickets.model.Ticket;
 import org.lessons.tickets.model.User;
 import org.lessons.tickets.repository.RoleRepository;
 import org.lessons.tickets.repository.TicketRepository;

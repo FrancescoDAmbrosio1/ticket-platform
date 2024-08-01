@@ -16,45 +16,50 @@
 </head>
 <body style="background-color: rgb(203, 250, 238);">
 	<div class="container" style="padding: 20px;">
-		<form id="ticket-form"
-				th:object="${note}" 
-				th:action="@{/note/create}"
-				method="post">
-					<div class="mb-3">
-						
-					</div>
-					<div class="mb-3">
+		<div style="text-align: center">
+					<h1>Inserimento nuova Nota</h1>			
+		</div>
+		<div class="border rounded-3 p-3" style="background-color: whitesmoke;">
+			<form id="ticket-form"
+					th:object="${note}" 
+					th:action="@{/note/create}"
+					method="post">
 						<div class="mb-3">
-							<label for="inputNoteAuthor" class="form-label">Autore della nota</label>
-							<input 	type="hidden" id="inputNoteAuthor" th:field="*{user}">					
+							
 						</div>
 						<div class="mb-3">
-							<label for="inputNoteDate" class="form-label">Inserisci la data</label>
-							<input type="date" class="form-control" 
-								id="inputNoteDate" placeholder="Seleziona la data..."
-								th:field="*{creationNoteDate}">					
-						</div>
-						<div class="mb-3">
-							<label for="ticketInputNote" class="form-label">Inserisci la nota al ticket</label>
-							<div>
-								<textarea class="form-control" aria-label="With textarea" 
-									id="ticketInputNote" placeholder="Inserisci qui il testo della nota..."
-									th:field="*{noteText}">						
-								</textarea>	
+							<div class="mb-3">
+								<label for="inputNoteAuthor" class="form-label">Autore della nota</label>
+								<input 	type="hidden" id="inputNoteAuthor" th:field="*{user}">					
+							</div>
+							<div class="mb-3">
+								<label for="inputNoteDate" class="form-label">Inserisci la data</label>
+								<input type="date" class="form-control" 
+									id="inputNoteDate" placeholder="Seleziona la data..."
+									th:field="*{creationNoteDate}">					
+							</div>
+							<div class="mb-3">
+								<label for="ticketInputNote" class="form-label">Inserisci la nota al ticket</label>
+								<div>
+									<textarea class="form-control" aria-label="With textarea" 
+										id="ticketInputNote" placeholder="Inserisci qui il testo della nota..."
+										th:field="*{noteText}">						
+									</textarea>	
+								</div>
 							</div>
 						</div>
-					</div>
-					<div style="display: flex; justify-content:space-evenly; padding-top: 20px;">
-						<div>
-							<a th:href="@{/main}" class="btn" style="background-color: green;
-								color: whitesmoke;">Torna al Menu</a>
+						<div style="display: flex; justify-content:space-evenly; padding-top: 20px;">
+							<div>
+								<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;">
+										Torna alla Dashboard</a>
+							</div>
+							<div>
+								<button type="submit" class="btn btn-primary" style="color: whitesmoke;">
+										Salva Nota</button>
+							</div>
 						</div>
-						<div>
-							<button type="submit" class="btn mb-3" style="background-color: green; 
-								color: whitesmoke;">Salva</button>
-						</div>
-					</div>
-		</form>
+			</form>
+		</div>
 	</div>
 	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>
