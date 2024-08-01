@@ -9,6 +9,12 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "Roles")
 public class Role {
 
+	@Id
+	private Integer id;
+	
+	@NotNull
+	private String name;
+
 	public Integer getId() {
 		return id;
 	}
@@ -25,10 +31,5 @@ public class Role {
 		this.name = name;
 	}
 
-	@Id
-	private Integer id;
-	
-	@NotNull
-	private String name;
 
 }

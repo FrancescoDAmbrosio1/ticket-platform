@@ -3,8 +3,10 @@ package org.lessons.tickets.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lessons.tickets.model.Category;
 import org.lessons.tickets.model.Ticket;
 import org.lessons.tickets.model.User;
+import org.lessons.tickets.repository.CategoryRepository;
 import org.lessons.tickets.repository.NoteRepository;
 import org.lessons.tickets.repository.TicketRepository;
 import org.lessons.tickets.repository.UserRepository;
@@ -37,6 +39,9 @@ public class TicketController {
 	@Autowired
 	private NoteRepository noteRepository;
 	
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
 	@GetMapping
 	public String ticketDashboard(Model model) {
 		
@@ -54,9 +59,15 @@ public class TicketController {
 		
 		model.addAttribute("ticket", new Ticket());
 		
+		model.addAttribute("category", new Category());
+
+		model.addAttribute("user", new User());
+
 		model.addAttribute("userList", userRepository.findAll(Sort.by(Sort.Direction.ASC, "name")));
 		
-		model.addAttribute("user", new User());
+		model.addAttribute("categoryList", categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "categoryName")));
+		
+		
 		
 		return "/tickets/create";
 	}
@@ -100,6 +111,15 @@ public class TicketController {
 		
 		return "tickets/index";
 		
+	}
+	
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable("id") Integer id) {
+				
+		
+		ticketRepository.deleteById(id);
+		
+		return "redirect:/main";
 	}
 
 }

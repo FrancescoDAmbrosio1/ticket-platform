@@ -14,76 +14,114 @@
 
 <title>Inserimento ticket </title>
 </head>
-<body>
+<body style="background-color: rgb(203, 250, 238);">
 	<div class="container" style="padding: 20px;">
-		<form id="ticket-form"
-				th:object="${ticket}" 
-				th:action="@{/main/create}"
-				method="post">
-				<div class="mb-3">
-					<label for="ticketInputTitle" class="form-label">Inserisci il titolo del ticket</label>
-					<input type="text" class="form-control" 
-						id="ticketInputTitle" placeholder="Inserisci il titolo del ticket..."
-						th:field="*{ticketTitle}" th:errorClass="is-invalid">
-						<div th:if="${#fields.hasErrors('ticketTitle')}" class="invalid-feedback">
+		<div style="text-align: center">
+			<h1>Inserimento nuovo Ticket</h1>			
+		</div>
+		<div class="border rounded-3 p-3" style="background-color: whitesmoke;">
+			<form id="ticket-form"
+					th:object="${ticket}" 
+					th:action="@{/main/create}"
+					method="post">
+				<div class="row d-flex justify-content-evenly">
+					<div class="col-6 mb-3">
+						<label for="ticketInputTitle" class="form-label">Titolo del ticket</label>
+						<input type="text" class="form-control" 
+							id="ticketInputTitle" placeholder="Inserisci il titolo del ticket..."
+							th:field="*{ticketTitle}" th:errorClass="is-invalid">
+							<div th:if="${#fields.hasErrors('ticketTitle')}" class="invalid-feedback">
+								<ul>
+									<li th:each="err : ${#fields.errors('ticketTitle')}" 
+										th:text="${err}">
+									</li>
+								</ul>
+							</div>
+					</div>
+					<div class="col-6 mb-3">
+						<div class="dropdown">
+							<label for="InputOperatore" class="form-label">Seleziona operatore</label>
+							<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+								id="InputOperatore" placeholder="Seleziona l'operatore...">
+								<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll; padding: 5px;">
+									<li	class="list-group-item" th:each="user : ${userList}" >
+										<input type="radio" name="user" th:value="${user.id}" th:field="*{user}">
+										<label th:text="|${user.surname} ${user.name}|"></label>
+									</li>
+								</ul>
+							</input>
+						</div>
+						<div th:if="${#fields.hasErrors('user')}" class="invalid-feedback">
 							<ul>
-								<li th:each="err : ${#fields.errors('ticketTitle')}" 
+								<li th:each="err : ${#fields.errors('user')}" 
 									th:text="${err}">
 								</li>
 							</ul>
 						</div>
+					</div>
+			</div>
+			<div class="row d-flex justify-content-evenly">
+				<div class="col-6 mb-3">
+					<div class="dropdown">
+						<label for="InputTicketState" class="form-label">Seleziona lo stato del ticket</label>
+						<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+							id="InputTicketState" placeholder="Seleziona lo stato...">
+							<ul class="dropdown-menu" style="max-height: 200px; padding: 5px;">
+								<li	class="list-group-item" >
+									<input type="radio" th:field="*{ticketState}" th:value="daFare">
+									<label> Da fare</label>
+								</li>
+								<li	class="list-group-item" >
+									<input type="radio" th:field="*{ticketState}" th:value="inCorso">
+									<label>In corso</label>
+								</li>
+								<li	class="list-group-item" >
+									<input type="radio" th:field="*{ticketState}" th:value="completato">	
+									<label>Completato</label>
+								</li>
+							</ul>
+						</input>
+					</div>
+					<div th:if="${#fields.hasErrors('ticketState')}" class="invalid-feedback">
+						<ul>
+							<li th:each="err : ${#fields.errors('ticketState')}" 
+								th:text="${err}">
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div class="mb-3">
-						<div class="col-6">
-							<div class="dropdown">
-								<label for="InputOperatore" class="form-label">Seleziona operatore</label>
-								<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
-									id="InputOperatore" placeholder="Seleziona l'operatore...">
-									<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll;">
-										<li	class="list-group-item" th:each="user : ${userList}" >
-											<input type="radio" name="user" th:value="${user.id}" th:field="*{user}">
-											<label th:text="|${user.surname} ${user.name}|"></label>
-										</li>
-									</ul>
-						  		</input>
-							</div>
-						</div>
+				<div class="col-6 mb-3">
+					<div class="dropdown">
+						<label for="InputCategory" class="form-label">Seleziona Categoria</label>
+						<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+							id="InputCategory" placeholder="Seleziona la categoria...">
+							<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll; padding: 5px;">
+								<li	class="list-group-item" th:each="category : ${categoryList}" >
+									<input type="radio" name="category" th:value="${category.id}" th:field="*{category}">
+									<label th:text="${category.categoryName}"></label>
+								</li>
+							</ul>
+						</input>
 					</div>
-					<div class="mb-3">
-						<div class="col-6">
-							<div class="dropdown">
-								<label for="InputTicketState" class="form-label">Seleziona lo stato del ticket</label>
-								<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
-									id="InputTicketState" placeholder="Seleziona lo stato...">
-									<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll;">
-										<li	class="list-group-item" >
-											<input type="radio" th:field="*{ticketState}" th:value="daFare">
-											<label> Da fare</label>
-										</li>
-										<li	class="list-group-item" >
-											<input type="radio" th:field="*{ticketState}" th:value="inCorso">
-											<label>In corso</label>
-										</li>
-										<li	class="list-group-item" >
-											<input type="radio" th:field="*{ticketState}" th:value="completato">	
-											<label>Completato</label>
-										</li>
-									</ul>
-								</input>
-							</div>
-						</div>
+					<div th:if="${#fields.hasErrors('ticketState')}" class="invalid-feedback">
+						<ul>
+							<li th:each="err : ${#fields.errors('ticketState')}" 
+								th:text="${err}">
+							</li>
+						</ul>
 					</div>
-					<div style="display: flex; justify-content:space-evenly; padding-top: 20px;">
-						<div>
-							<button type="submit" class="btn mb-3" style="background-color: green; 
-								color: whitesmoke;">Aggiungi ticket</button>
-						</div>
-						<div>
-							<a th:href="@{/main}" class="btn" style="background-color: green;
-								color: whitesmoke;">Torna al Menu</a>
-						</div>
+				</div>
+			</div>
+				<div style="display: flex; justify-content:space-evenly; padding-top: 20px;">
+					<div>
+						<button type="submit" class="btn btn-primary mb-3" style="color: whitesmoke;">Aggiungi ticket</button>
 					</div>
-		</form>
+					<div>
+						<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;">Torna alla Dashboard</a>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>
