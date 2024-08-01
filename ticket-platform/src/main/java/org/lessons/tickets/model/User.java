@@ -9,9 +9,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -21,27 +25,39 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message = "L'inserimento del nome è obbligaotorio")
 	@Column(name = "nome", nullable = false)
 	private String name;
 	
+	@NotBlank(message = "L'inserimento del cognome è obbligaotorio")
 	@Column(name = "cognome", nullable = false)
 	private String surname;
 
+	@NotBlank(message = "L'inserimento della matricola è obbligaotorio")
 	@Column(name = "matricola", nullable = false, unique = true)
 	private String identifierNumber;
 	
+	@NotBlank(message = "L'inserimento della mail è obbligaotorio")
 	@Column(name = "email", nullable = false, unique = true)
 	private String mail;
 	
+	@NotBlank(message = "L'inserimento della Password è obbligaotorio")
 	@Column(name = "password", nullable = false)
 	private String password;
+//	
+//	@Column(name = "stato-disponibile", nullable = false)
+//	private boolean personalState;
 	
-	@Column(name = "stato-disponibile", nullable = false)
-	private boolean personalState;
-	
+	@NotBlank(message = "L'inserimento dell'Url è obbligaotorio")
 	@Column(name = "Url img profilo", nullable = false)
 	private String urlImgProfile;
 	
+//	@NotNull(message = "L'inserimento dello stato è obbligatorio")
+	@ManyToOne
+	@JoinColumn(name = "userState_id")
+	private UserState userState;
+	
+//	@NotNull(message = "L'inserimento del Ruolo è obbligatorio")
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles;
 
@@ -103,6 +119,15 @@ public class User {
 		return mail;
 	}
 
+
+	public UserState getUserState() {
+		return userState;
+	}
+
+	public void setUserState(UserState userState) {
+		this.userState = userState;
+	}
+
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
@@ -113,14 +138,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public boolean isPersonalState() {
-		return personalState;
-	}
-
-	public void setPersonalState(boolean personalState) {
-		this.personalState = personalState;
 	}
 
 	public String getUrlImgProfile() {

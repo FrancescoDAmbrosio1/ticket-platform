@@ -14,76 +14,154 @@
 
 <title>Inserimento ticket </title>
 </head>
-<body>
+<body style="background-color:lightskyblue;">
 	<div class="container" style="padding: 20px;">
-		<form id="ticket-form"
-				th:object="${ticket}" 
-				th:action="@{/main/create}"
-				method="post">
-				<div class="mb-3">
-					<label for="ticketInputTitle" class="form-label">Inserisci il titolo del ticket</label>
-					<input type="text" class="form-control" 
-						id="ticketInputTitle" placeholder="Inserisci il titolo del ticket..."
-						th:field="*{ticketTitle}" th:errorClass="is-invalid">
-						<div th:if="${#fields.hasErrors('ticketTitle')}" class="invalid-feedback">
-							<ul>
-								<li th:each="err : ${#fields.errors('ticketTitle')}" 
-									th:text="${err}">
-								</li>
-							</ul>
-						</div>
-				</div>
-				<div class="mb-3">
-						<div class="col-6">
-							<div class="dropdown">
-								<label for="InputOperatore" class="form-label">Seleziona operatore</label>
-								<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
-									id="InputOperatore" placeholder="Seleziona l'operatore...">
-									<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll;">
-										<li	class="list-group-item" th:each="user : ${userList}" >
-											<input type="radio" name="user" th:value="${user.id}" th:field="*{user}">
-											<label th:text="|${user.surname} ${user.name}|"></label>
+		<div style="text-align: center">
+			<h1>Inserimento nuovo operatore</h1>			
+		</div>
+		<div class="border rounded-3 p-3" style="background-color: whitesmoke;">
+			<form id="user-form"
+					th:object="${user}" 
+					th:action="@{/user/create}"
+					method="post">
+					<div class="row d-flex justify-content-evenly">
+						<div class="col-6 mb-3">
+							<label for="userInputSurname" class="form-label">Cognome dell'Operatore</label>
+							<input type="text" class="form-control" 
+								id="userInputSurname" placeholder="Inserisci il Cognome dell'operatore..."
+								th:field="*{surname}" th:errorClass="is-invalid">
+								<div th:if="${#fields.hasErrors('surname')}" class="invalid-feedback">
+									<ul>
+										<li th:each="err : ${#fields.errors('surname')}" 
+											th:text="${err}">
 										</li>
 									</ul>
-						  		</input>
-							</div>
+								</div>
 						</div>
-					</div>
-					<div class="mb-3">
-						<div class="col-6">
-							<div class="dropdown">
-								<label for="InputTicketState" class="form-label">Seleziona lo stato del ticket</label>
-								<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
-									id="InputTicketState" placeholder="Seleziona lo stato...">
-									<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll;">
-										<li	class="list-group-item" >
-											<input type="radio" th:field="*{ticketState}" th:value="daFare">
-											<label> Da fare</label>
-										</li>
-										<li	class="list-group-item" >
-											<input type="radio" th:field="*{ticketState}" th:value="inCorso">
-											<label>In corso</label>
-										</li>
-										<li	class="list-group-item" >
-											<input type="radio" th:field="*{ticketState}" th:value="completato">	
-											<label>Completato</label>
+						<div class="col-6 mb-3">
+							<label for="userInputName" class="form-label">Nome dell'Operatore</label>
+							<input type="text" class="form-control" 
+								id="userInputName" placeholder="Inserisci il nome dell'Operatore..."
+								th:field="*{name}" th:errorClass="is-invalid">
+								<div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+									<ul>
+										<li th:each="err : ${#fields.errors('name')}" 
+											th:text="${err}">
 										</li>
 									</ul>
-								</input>
+								</div>
+						</div>
+					</div>
+					<div class="row d-flex justify-content-evenly">
+						<div class="col-6 mb-3">
+							<label for="userInputIdentifierNumber" class="form-label">Matricola dell'Operatore</label>
+							<input type="text" class="form-control" 
+								id="userInputIdentifierNumber" placeholder="Matricola dell'Operatore..."
+								th:field="*{identifierNumber}" th:errorClass="is-invalid">
+								<div th:if="${#fields.hasErrors('identifierNumber')}" class="invalid-feedback">
+									<ul>
+										<li th:each="err : ${#fields.errors('identifierNumber')}" 
+											th:text="${err}">
+										</li>
+									</ul>
+								</div>
+						</div>
+						<div class="col-6 mb-3">
+							<label for="userInputMail" class="form-label">Email Operatore</label>
+							<input type="email" class="form-control" 
+								id="userInputMail" placeholder="esempio@gestionale.it"
+								th:field="*{mail}" th:errorClass="is-invalid">
+								<div th:if="${#fields.hasErrors('mail')}" class="invalid-feedback">
+									<ul>
+										<li th:each="err : ${#fields.errors('mail')}" 
+											th:text="${err}">
+										</li>
+									</ul>
+								</div>
+						</div>
+					</div>
+					<div class="row d-flex justify-content-evenly">
+						<div class="col-6 mb-3">
+							<label for="userInputPassword" class="form-label">Password dell'Operatore</label>
+							<input type="text" class="form-control" 
+								id="userInputPassword" placeholder="es.password..."
+								th:field="*{password}" th:errorClass="is-invalid">
+								<div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+									<ul>
+										<li th:each="err : ${#fields.errors('password')}" 
+											th:text="${err}">
+										</li>
+									</ul>
+								</div>
+						</div>
+						<div class="col-6 mb-3">
+							<label for="userInputUrl" class="form-label">Url dell' immagine Operatore</label>
+							<input type="text" class="form-control" 
+								id="userInputUrl" placeholder="es. /images/avatar.jpg"
+								th:field="*{urlImgProfile}" th:errorClass="is-invalid">
+								<div th:if="${#fields.hasErrors('urlImgProfile')}" class="invalid-feedback">
+									<ul>
+										<li th:each="err : ${#fields.errors('urlImgProfile')}" 
+											th:text="${err}">
+										</li>
+									</ul>
+								</div>
+						</div>
+					</div>
+					<div class="row d-flex 	justify-content-evenly">
+						<div class="col-6 mb-3">
+									<div class="dropdown">
+										<label for="personaleStateInput" class="form-label">Seleziona Stato Operatore</label>
+										<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+											id="personalStateInput" placeholder="Stato operatore...">
+											<ul class="dropdown-menu" style="max-height: 200px;">
+												<li	class="list-group-item" th:each="userState: ${stateList}" >
+													<input type="radio" name="userState" th:value="${userState.id}" th:field="*{userState}">
+													<label th:if="${userState.id == 1}"
+														th:text="Disponibile"></label>
+													<label th:unless="${userState.id == 1}"
+														th:text="|Non Disponibile|"></label>
+												</li>
+												
+											</ul>
+								  		</input>
+									</div>
+								<div th:if="${#fields.hasErrors('userState')}" class="invalid-feedback">
+									<ul>
+										<li th:each="err : ${#fields.errors('userState')}" 
+											th:text="${err}">
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-6 mb-3">
+									<div class="dropdown">
+										<label for="personaleRoleInput" class="form-label">Seleziona Ruolo Operatore</label>
+										<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+											id="personalRoleInput" placeholder="Ruolo operatore...">
+											<ul class="dropdown-menu" style="max-height: 200px;">
+												<li	class="list-group-item" th:each="role: ${roleList}" >
+													<input type="checkbox" name="role" th:value="${role.id}" th:field="*{roles}">
+													<label th:text="${role.name}"></label>
+												</li>
+											</ul>
+										</input>
+									</div>
+								</div>
+					</div>
+						<div class="d-flex justify-content-evenly gap-3 ">
+							<div>
+								<button type="submit" class="btn btn-primary mb-3" style="
+									color: whitesmoke;">Salva Operatore</button>
+							</div>
+							<div>
+								<a th:href="@{/main}" class="btn btn-primary mb-3" style="
+									color: whitesmoke;">Torna alla Dashboard</a>
 							</div>
 						</div>
-					</div>
-					<div style="display: flex; justify-content:space-evenly; padding-top: 20px;">
-						<div>
-							<button type="submit" class="btn mb-3" style="background-color: green; 
-								color: whitesmoke;">Aggiungi ticket</button>
-						</div>
-						<div>
-							<a th:href="@{/main}" class="btn" style="background-color: green;
-								color: whitesmoke;">Torna al Menu</a>
-						</div>
-					</div>
-		</form>
+			</form>
+			
+		</div>
 	</div>
 	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>

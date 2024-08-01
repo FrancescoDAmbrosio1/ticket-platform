@@ -14,13 +14,13 @@
 
 <title>Ticket Dashboard </title>
 </head>
-<body>
+<body style="background-color: lightskyblue;">
 <div class="container">
 	
 <h1>Tickets</h1>
 <div>
-	<a th:href="@{/main/create}" class="btn" style="background-color: green;
-		color: whitesmoke;">Aggiungi un ticket</a>
+	<a th:href="@{/main/create}" class="btn btn-primary"
+		style="color: whitesmoke;">Aggiungi un ticket</a>
 		<div style="margin-top: 20px; margin-bottom: 20px;">
 						<form class="d-flex" role="search"
 							th:object="${ticket}" 
@@ -30,9 +30,8 @@
 								placeholder="Cerca il ticket..." aria-label="Search"
 								name="input">
 							<div class="container-fluid d-flex gap-1">
-								<button class="btn" type="submit" style="background-color: green;
-									color: whitesmoke;">Cerca</button>
-								<a class="btn" style="background-color: green; color: whitesmoke;"
+								<button class="btn btn-primary" type="submit" style="color: whitesmoke;">Cerca</button>
+								<a class="btn btn-primary" style="color: whitesmoke;"
 									th:href="@{/main}">Annulla</a>	
 							</div>
 					</form>

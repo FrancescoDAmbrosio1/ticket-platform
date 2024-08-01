@@ -12,9 +12,10 @@
 
 <title th:text="|Operatore:${user.identifierNumber}|"></title>
 </head>
-<body>
+<body style="background-color:lightskyblue;">
 	<div class="container" style="padding: 20px;">
-					<h5>Dettaglio Operatore:</h5>
+					<h1 class="p-2"
+						th:text="|Dettaglio Operatore - Matr.${user.identifierNumber}|"></h1>
 					<div class="row d-flex">
 						<div class="col-4">
 							<img th:src="${user.urlImgProfile}" th:alt="${user.name}"
@@ -23,31 +24,192 @@
 						<div class="col-8">
 							<ul class="list-group">
 								<li class="list-group-item">
-									<span th:text="|Cognome: ${user.getSurname()}|"></span>
+									<span><strong>Cognome: </strong></span>
+									<span th:text="${user.getSurname()}"></span>
 								</li>
 								<li class="list-group-item">
-									<span th:text="|Nome: ${user.getName()}|"></span>
+									<span><strong>Nome: </strong></span>
+									<span th:text="${user.getName()}"></span>
 								</li>
 								<li class="list-group-item">
-									<span th:text="|Matricola: ${user.getIdentifierNumber()}|"></span>
+									<span><strong>Matricola: </strong></span>
+									<span th:text="${user.getIdentifierNumber()}"></span>
 								</li>
 								<li class="list-group-item">
-									<span th:text="|Mail: ${user.getMail()}|"></span>
+									<span><strong>Email: </strong></span>
+									<span th:text="${user.getMail()}"></span>
 								</li>
 								<li class="list-group-item">
-									<span th:if="${user.isPersonalState()}">
-										Stato: Disponibile</span>
-									<span th:unless="${user.isPersonalState()}">
-										Stato: Non Disponibile</span>
-									<a class="btn" style="background-color: green;
-										color: whitesmoke;"
-										th:href="@{#}">
-											<i class="bi bi-pencil"></i>
-									</a>
+									<span><strong>Stato Operatore: </strong></span>
+									<span th:if="${user.userState.isPersonalState()}"
+										style="color: whitesmoke;"
+										class=" badge text-bg-success"
+										th:text=" Disponibile "></span>
+									<span th:unless="${user.userState.isPersonalState()}"
+										style="color: whitesmoke;"
+										class=" badge text-bg-danger"
+										th:text="|Non Disponibile|"></span>
+								</li>
+								<li class="list-group-item">
+									<div class="container-fluid d-flex justify-content-center gap-1">
+										<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+												data-bs-target="#exampleModal" style="color: whitesmoke;"
+												th:action="@{|/user/state/${user.id}|}"> Modifica dati personali 
+										</button>				
+										<!-- Modal -->
+										<form id="statoPersonale-form"
+											th:object="${user}" 
+											th:action="@{|/user/edit/${user.id}|}"
+											method="post">
+											<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+													<div class="modal-content">
+																<div class="modal-header" style="background-color:lightskyblue;">
+																	 <h1 class="modal-title fs-5" id="exampleModalLabel" th:text="|${user.getName()} modifica i tuoi dati|"></h1>
+																		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																</div>
+																<div class="modal-body" style="background-color: whitesmoke;">
+																	<div class="row d-flex justify-content-evenly">
+																		<div class="col-6 mb-3">
+																			<label for="userInputSurname" class="form-label">Cognome dell'Operatore</label>
+																			<input type="text" class="form-control" 
+																				id="userInputSurname" placeholder="Inserisci il Cognome dell'operatore..."
+																				th:field="*{surname}" th:errorClass="is-invalid">
+																				<div th:if="${#fields.hasErrors('surname')}" class="invalid-feedback">
+																					<ul>
+																						<li th:each="err : ${#fields.errors('surname')}" 
+																							th:text="${err}">
+																						</li>
+																					</ul>
+																				</div>
+																		</div>
+																		<div class="col-6 mb-3">
+																			<label for="userInputName" class="form-label">Nome dell'Operatore</label>
+																			<input type="text" class="form-control" 
+																				id="userInputName" placeholder="Inserisci il nome dell'Operatore..."
+																				th:field="*{name}" th:errorClass="is-invalid">
+																				<div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+																					<ul>
+																						<li th:each="err : ${#fields.errors('name')}" 
+																							th:text="${err}">
+																						</li>
+																					</ul>
+																				</div>
+																		</div>
+																	</div>
+																	<div class="row d-flex justify-content-evenly">
+																		<div class="col-6 mb-3">
+																			<label for="userInputIdentifierNumber" class="form-label">Matricola dell'Operatore</label>
+																			<input type="text" class="form-control" 
+																				id="userInputIdentifierNumber" placeholder="Matricola dell'Operatore..."
+																				th:field="*{identifierNumber}" th:errorClass="is-invalid">
+																				<div th:if="${#fields.hasErrors('identifierNumber')}" class="invalid-feedback">
+																					<ul>
+																						<li th:each="err : ${#fields.errors('identifierNumber')}" 
+																							th:text="${err}">
+																						</li>
+																					</ul>
+																				</div>
+																		</div>
+																		<div class="col-6 mb-3">
+																			<label for="userInputMail" class="form-label">Email Operatore</label>
+																			<input type="email" class="form-control" 
+																				id="userInputMail" placeholder="esempio@gestionale.it"
+																				th:field="*{mail}" th:errorClass="is-invalid">
+																				<div th:if="${#fields.hasErrors('mail')}" class="invalid-feedback">
+																					<ul>
+																						<li th:each="err : ${#fields.errors('mail')}" 
+																							th:text="${err}">
+																						</li>
+																					</ul>
+																				</div>
+																		</div>
+																	</div>
+																	<div class="row d-flex justify-content-evenly">
+																		<div class="col-6 mb-3">
+																			<label for="userInputPassword" class="form-label">Password dell'Operatore</label>
+																			<input type="text" class="form-control" 
+																				id="userInputPassword" placeholder="es.password..."
+																				th:field="*{password}" th:errorClass="is-invalid">
+																				<div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+																					<ul>
+																						<li th:each="err : ${#fields.errors('password')}" 
+																							th:text="${err}">
+																						</li>
+																					</ul>
+																				</div>
+																		</div>
+																		<div class="col-6 mb-3">
+																			<label for="userInputUrl" class="form-label">Url dell' immagine Operatore</label>
+																			<input type="text" class="form-control" 
+																				id="userInputUrl" placeholder="es. /images/avatar.jpg"
+																				th:field="*{urlImgProfile}" th:errorClass="is-invalid">
+																				<div th:if="${#fields.hasErrors('urlImgProfile')}" class="invalid-feedback">
+																					<ul>
+																						<li th:each="err : ${#fields.errors('urlImgProfile')}" 
+																							th:text="${err}">
+																						</li>
+																					</ul>
+																				</div>
+																		</div>
+																	</div>
+																	<div class="row d-flex 	justify-content-evenly">
+																			<div class="col-6 mb-3">
+																					<div class="dropdown">
+																						<label for="personaleStateInput" class="form-label">Seleziona Stato Operatore</label>
+																						<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+																							id="personalStateInput" placeholder="Stato operatore...">
+																							<ul class="dropdown-menu" style="max-height: 200px;">
+																								<li	class="list-group-item" th:each="userState: ${stateList}" >
+																									<input type="radio" name="userState" th:value="${userState.id}" th:field="*{userState}">
+																									<label th:if="${userState.id == 1}"
+																										th:text="Disponibile"></label>
+																									<label th:unless="${userState.id == 1}"
+																											th:text="|Non Disponibile|"></label>
+																									</li>
+																									
+																								</ul>
+																					  		</input>
+																						</div>
+																					<div th:if="${#fields.hasErrors('userState')}" class="invalid-feedback">
+																						<ul>
+																							<li th:each="err : ${#fields.errors('userState')}" 
+																								th:text="${err}">
+																							</li>
+																						</ul>
+																					</div>
+																			</div>
+																			<div class="col-6 mb-3">
+																				<div class="dropdown">
+																						<label for="personaleRoleInput" class="form-label">Seleziona Ruolo Operatore</label>
+																						<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+																							id="personalRoleInput" placeholder="Ruolo operatore...">
+																							<ul class="dropdown-menu" style="max-height: 200px;">
+																								<li	class="list-group-item" th:each="role: ${roleList}" >
+																									<input type="checkbox" name="role" th:value="${role.id}" th:field="*{roles}">
+																									<label th:text="${role.name}"></label>
+																								</li>
+																							</ul>
+																						</input>
+																					</div>
+																				</div>
+																	</div>
+																</div>
+																<div class="modal-footer" style="background-color:lightskyblue;">
+																	<button type="submit" class="btn btn-primary" style=" color: whitesmoke;">
+																			Salva</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
 								</li>								
 							</ul>
 						</div>
 					</div>
+	</div>
+	<div class="container" style="padding: 20px;">
 				<table id="table-1" class="table table-striped "
 						th:unless="${list.isEmpty()}">
 						<thead>
@@ -85,7 +247,7 @@
 						</tbody>
 					</table>
 				<div th:if="${list.isEmpty()}">
-					<span> Non sono presenti ticket da trattare</span>
+					<span th:text="|Non sono presenti ticket da trattare dall'Operatore Matr. ${user.identifierNumber}" </span>
 				</div>
 
 <!--				<div style="display: flex; justify-content: space-around; text-align: center;">-->
