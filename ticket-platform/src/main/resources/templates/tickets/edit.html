@@ -17,7 +17,10 @@
 <body style="background-color: rgb(203, 250, 238);">
 	<div class="container" style="padding: 20px;">
 		<div style="text-align: center">
-			<h1 th:text="|Modifica del Ticket : ${ticket.ticketTitle}"></h1>			
+			<h1 th:text="|Modifica del Ticket : ${ticket.ticketTitle}"
+				sec:authorize="hasAuthority('ADMIN')"></h1>	
+			<h1 th:text="|Modifica dello stato del Ticket : ${ticket.ticketTitle}"
+				sec:authorize="hasAuthority('OPERATORE')"></h1>		
 		</div>
 		<div class="border rounded-3 p-3" style="background-color: whitesmoke;">
 			<form id="ticket-form"
@@ -25,7 +28,8 @@
 					th:action="@{|/main/edit/${id}|}"
 					method="post">
 				<div class="row d-flex justify-content-evenly">
-					<div class="col-6 mb-3">
+					<div class="col-6 mb-3"
+						sec:authorize="hasAuthority('ADMIN')">
 						<label for="ticketInputTitle" class="form-label">Titolo del ticket</label>
 						<input type="text" class="form-control" 
 							id="ticketInputTitle" placeholder="Inserisci il titolo del ticket..."
@@ -38,7 +42,22 @@
 								</ul>
 							</div>
 					</div>
-					<div class="col-6 mb-3">
+					<div class="col-1 mb-3"
+						sec:authorize="hasAuthority('OPERATORE')">
+<!--						<label for="ticketInputTitle" class="form-label">Titolo del ticket</label>-->
+						<input type="hidden" class="form-control" 
+							id="ticketInputTitle" placeholder="Inserisci il titolo del ticket..."
+							th:field="*{ticketTitle}" th:errorClass="is-invalid">
+							<div th:if="${#fields.hasErrors('ticketTitle')}" class="invalid-feedback">
+								<ul>
+									<li th:each="err : ${#fields.errors('ticketTitle')}" 
+											th:text="${err}">
+									</li>
+								</ul>
+							</div>
+					</div>
+					<div class="col-6 mb-3"
+					sec:authorize="hasAuthority('ADMIN')">
 						<div class="dropdown">
 							<label for="InputOperatore" class="form-label">Seleziona operatore</label>
 							<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
@@ -55,6 +74,28 @@
 							<ul>
 								<li th:each="err : ${#fields.errors('user')}" 
 									th:text="${err}">
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-1 mb-3"
+						sec:authorize="hasAuthority('OPERATORE')">
+						<div class="dropdown">
+<!--							<label for="InputOperatore" class="form-label">Seleziona operatore</label>-->
+							<input type="hidden" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+								id="InputOperatore" placeholder="Seleziona l'operatore...">
+								<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll; padding: 5px;">
+									<li	class="list-group-item" th:each="user : ${userList}" >
+										<input type="radio" name="user" th:value="${user.id}" th:field="*{user}">
+										<label th:text="|${user.surname} ${user.name}|"></label>
+									</li>
+								</ul>
+							</input>
+						</div>
+						<div th:if="${#fields.hasErrors('user')}" class="invalid-feedback">
+							<ul>
+								<li th:each="err : ${#fields.errors('user')}" 
+										th:text="${err}">
 								</li>
 							</ul>
 						</div>
@@ -90,10 +131,33 @@
 						</ul>
 					</div>
 				</div>
-				<div class="col-6 mb-3">
+				<div class="col-6 mb-3"
+					sec:authorize="hasAuthority('ADMIN')">
 					<div class="dropdown">
 						<label for="InputCategory" class="form-label">Seleziona Categoria</label>
 						<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+							id="InputCategory" placeholder="Seleziona la categoria...">
+							<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll; padding: 5px;">
+								<li	class="list-group-item" th:each="category : ${categoryList}" >
+									<input type="radio" name="category" th:value="${category.id}" th:field="*{category}">
+									<label th:text="${category.categoryName}"></label>
+								</li>
+							</ul>
+						</input>
+					</div>
+					<div th:if="${#fields.hasErrors('ticketState')}" class="invalid-feedback">
+						<ul>
+							<li th:each="err : ${#fields.errors('ticketState')}" 
+								th:text="${err}">
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-1 mb-3">
+					<div class="dropdown"
+					sec:authorize="hasAuthority('OPERATORE')">
+<!--						<label for="InputCategory" class="form-label">Seleziona Categoria</label>-->
+						<input type="hidden" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
 							id="InputCategory" placeholder="Seleziona la categoria...">
 							<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll; padding: 5px;">
 								<li	class="list-group-item" th:each="category : ${categoryList}" >
@@ -116,7 +180,7 @@
 					<div>
 						<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;"
 								sec:authorize="hasAuthority('ADMIN')">Torna alla Dashboard</a>
-						<a th:href="@{|/user/show/${user.id}}" class="btn btn-primary" style="color: whitesmoke;"
+						<a th:href="@{|/user/show/${user.id}|}" class="btn btn-primary" style="color: whitesmoke;"
 							sec:authorize="hasAuthority('OPERATORE')">Pagina iniziale</a>
 					</div>
 					<div>

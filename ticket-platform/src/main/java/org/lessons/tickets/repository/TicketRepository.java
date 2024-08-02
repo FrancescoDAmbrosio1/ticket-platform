@@ -1,6 +1,7 @@
 package org.lessons.tickets.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.lessons.tickets.model.Ticket;
 import org.lessons.tickets.model.User;
@@ -17,6 +18,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	public List<Ticket> findByUser(User user);
 
 	public List<Ticket> findByTicketState(String ticketState);
+	
+	public Optional<Ticket> findById(Integer id);
+	
+//	findByTicketId(Integer id) {
+//        TicketModel ticket = ticketRepository.findById(id).get();
 	
 	@Query("SELECT t FROM Ticket t WHERE t.category.id = :category")
     List<Ticket> findByCategoryId(@Param("category") Integer category);

@@ -48,10 +48,6 @@ public class Ticket {
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "note_id")
-//	private Note note;
-
 	@OneToMany(mappedBy = "ticket")
 	public List<Note> notes;
 	

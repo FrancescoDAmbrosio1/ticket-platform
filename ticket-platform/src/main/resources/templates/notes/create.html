@@ -33,7 +33,13 @@
 									<span><strong th:text="|${user.getSurname()} ${user.getName()}|"></strong></span>
 								</div>
 <!--								<label for="inputNoteAuthor" class="form-label">Autore della nota</label>-->
-<!--								<input 	type="hidden" id="inputNoteAuthor" th:field="*{user}">					-->
+								<input 	type="hidden"  th:field="*{user}">					
+							</div>
+							<div class="mb-3">
+								<label for="inputTiketId" class="form-label">Ticket di riferimento</label>
+								<input type="text" class="form-control" 
+										id="inputNoteDate" placeholder="ticket di riferimento..."
+										th:field="*{ticket.id}">					
 							</div>
 							<div class="mb-3">
 								<label for="inputNoteDate" class="form-label">Inserisci la data</label>
