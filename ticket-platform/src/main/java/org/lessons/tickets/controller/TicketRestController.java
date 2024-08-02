@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/tickets")
+@RequestMapping("/api")
 public class TicketRestController {
 	
 	@Autowired
@@ -54,8 +54,8 @@ public class TicketRestController {
 	}
 	
 	
-	@GetMapping("/ticket/state/{id}")
-	public ResponseEntity  findByStatus(@PathVariable("id") Ticket ticketState){
+	@GetMapping("/ticket/state/{ticketState}")
+	public ResponseEntity  findByStatus(@PathVariable("ticketState") String ticketState){
 		
 		List<Ticket> ticket = ticketService.findByTicketState(ticketState);
 		
@@ -70,9 +70,9 @@ public class TicketRestController {
 	
 	
 	@GetMapping("/ticket/category/{category}")
-	public ResponseEntity findByCategory(@PathVariable("id") String category){
+	public ResponseEntity findByCategory(@PathVariable("category") Integer category){
 		
-		List<Ticket> ticket = ticketService.findByCategoryName(category);
+		List<Ticket> ticket = ticketService.findByCategoryId(category);
 		
 		if (!ticket.isEmpty()) {
 			return new ResponseEntity<>(ticket, HttpStatus.OK);

@@ -16,10 +16,10 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	
 	public List<Ticket> findByUser(User user);
 
-	public List<Ticket> findByTicketState(Ticket ticketState);
+	public List<Ticket> findByTicketState(String ticketState);
 	
-	@Query("SELECT t FROM Ticket t WHERE t.category.name = :category")
-    List<Ticket> findByCategoryName(@Param("category") String category);
+	@Query("SELECT t FROM Ticket t WHERE t.category.id = :category")
+    List<Ticket> findByCategoryId(@Param("category") Integer category);
 	
 
 }

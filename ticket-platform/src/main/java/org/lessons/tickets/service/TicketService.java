@@ -12,9 +12,9 @@ public interface TicketService {
 	
 	public List<Ticket> findAll();
 	
-	public List<Ticket> findByTicketState(Ticket ticketState);
+	public List<Ticket> findByTicketState(String ticketState);
 	
-	public List<Ticket> findByCategoryName(String category);
+	public List<Ticket> findByCategoryId(Integer category);
 
 
 }

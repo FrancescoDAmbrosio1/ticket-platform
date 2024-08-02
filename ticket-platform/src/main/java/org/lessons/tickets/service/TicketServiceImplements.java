@@ -27,15 +27,15 @@ public class TicketServiceImplements implements TicketService {
 	}
 
 	@Override
-	public List<Ticket> findByTicketStateId(Integer id) {
+	public List<Ticket> findByTicketState(String ticketState) {
 		
-		return ticketRepository.findByTicketStateId(id);
+		return ticketRepository.findByTicketState(ticketState);
 	}
 
 	@Override
-	public List<Ticket> findByCategoryId(Integer id) {
+	public List<Ticket> findByCategoryId(Integer category) {
 		
-		return ticketRepository.findByCategoryId(id);
+		return ticketRepository.findByCategoryId(category);
 	}
 
 }

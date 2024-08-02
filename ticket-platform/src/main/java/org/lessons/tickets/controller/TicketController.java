@@ -1,5 +1,6 @@
 package org.lessons.tickets.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -97,7 +98,7 @@ public class TicketController {
 	@GetMapping("/show/{id}")
 	public String show(@PathVariable("id") Integer ticketId, Model model) {
 		
-		model.addAttribute("list", noteRepository.findAll(Sort.by(Sort.Direction.DESC,"creationNoteDate")));
+		model.addAttribute("list", noteRepository.findAllById(ticketId));
 		
 		model.addAttribute("ticket", ticketRepository.getReferenceById(ticketId));
 		
