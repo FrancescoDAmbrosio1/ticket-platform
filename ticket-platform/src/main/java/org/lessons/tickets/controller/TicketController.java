@@ -2,17 +2,22 @@ package org.lessons.tickets.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.lessons.tickets.model.Category;
+import org.lessons.tickets.model.Role;
 import org.lessons.tickets.model.Ticket;
 import org.lessons.tickets.model.User;
 import org.lessons.tickets.repository.CategoryRepository;
 import org.lessons.tickets.repository.NoteRepository;
+import org.lessons.tickets.repository.RoleRepository;
 import org.lessons.tickets.repository.TicketRepository;
 import org.lessons.tickets.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,6 +46,9 @@ public class TicketController {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	@GetMapping
 	public String ticketDashboard(Model model) {
@@ -93,6 +101,10 @@ public class TicketController {
 		
 		model.addAttribute("ticket", ticketRepository.getReferenceById(ticketId));
 		
+		User userLogged = findUserLogged();
+		
+		model.addAttribute("user", userLogged);
+		
 		return "tickets/show";
 	}
 	
@@ -131,14 +143,34 @@ public class TicketController {
 		
 		model.addAttribute("categoryList", categoryRepository.findAll());
 		
+		User userLogged = findUserLogged();
+		
+		model.addAttribute("user", userLogged);
+		
 		return "/tickets/edit";
 	}
 	
 	@PostMapping("/edit/{id}")
 	public String update(@Valid @ModelAttribute("ticket") Ticket ticket,
 			BindingResult bindingResult, Model model) {
+
+		User userLogged = findUserLogged();
 		
-	
+		model.addAttribute("user", userLogged);
+		
+//		Object i = 1;
+//		
+//		Boolean userRole = userLogged.getRoles().contains(i);		
+//		String type;
+//		
+//		if(userRole) {
+//			type ="text";
+//			} else {
+//				type ="hidden";
+//			}
+//		 model.addAttribute("type", type);
+
+		
 		if(bindingResult.hasErrors()) {
 			
 			return "/tickets/edit";
@@ -148,5 +180,22 @@ public class TicketController {
 		
 		return "redirect:/main";
 		
+	}
+	
+	
+	//metodi di servizio
+	
+	public User findUserLogged() {
+		
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		String username = authentication.getName();
+		
+		Optional<User> user = userRepository.findByUsername(username);
+		
+		User userLogged = user.get();
+		
+		return userLogged;
 	}
 }

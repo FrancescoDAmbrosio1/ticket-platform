@@ -39,14 +39,11 @@ public class User {
 	
 	@NotBlank(message = "L'inserimento della mail è obbligaotorio")
 	@Column(name = "email", nullable = false, unique = true)
-	private String mail;
+	private String username;
 	
 	@NotBlank(message = "L'inserimento della Password è obbligaotorio")
 	@Column(name = "password", nullable = false)
 	private String password;
-//	
-//	@Column(name = "stato-disponibile", nullable = false)
-//	private boolean personalState;
 	
 	@NotBlank(message = "L'inserimento dell'Url è obbligaotorio")
 	@Column(name = "Url img profilo", nullable = false)
@@ -115,10 +112,14 @@ public class User {
 		this.identifierNumber = identifierNumber;
 	}
 
-	public String getMail() {
-		return mail;
+
+	public String getUsername() {
+		return username;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public UserState getUserState() {
 		return userState;
@@ -128,9 +129,6 @@ public class User {
 		this.userState = userState;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
 
 	public String getPassword() {
 		return password;

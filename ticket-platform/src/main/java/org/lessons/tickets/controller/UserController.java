@@ -12,6 +12,8 @@ import org.lessons.tickets.repository.UserRepository;
 import org.lessons.tickets.repository.UserStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,6 +52,22 @@ public class UserController {
 		
 		return "/users/index";
 		
+	}
+	
+	@GetMapping("/home")
+	public String home(Model model) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+		String username = authentication.getName();
+
+        Optional<User> user = userRepository.findByUsername(username);
+        
+        User userLogged = user.get();
+
+        model.addAttribute("user", userLogged);
+		
+		return "/users/home";
 	}
 
 	@GetMapping("/show/{id}")

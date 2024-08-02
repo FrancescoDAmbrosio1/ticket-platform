@@ -16,19 +16,15 @@ public class SecurityConfiguration {
 
 	  @Bean
 	  SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	    http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-	        .requestMatchers("/pizze/create", "/pizze/edit/**", "/pizze/delete/**").hasAuthority("ADMIN")
-	        .requestMatchers("/ingredienti", "/ingredienti/**").hasAuthority("ADMIN")
-	        .requestMatchers("/offerte", "/offerte/**").hasAuthority("ADMIN")
-	        .requestMatchers( "/pizze", "/pizze/**").hasAuthority("ADMIN")
-	        .requestMatchers("/pizze", "/pizze/**").hasAuthority("USER")
-	    	.requestMatchers("/css/**", "/js/**", "/webjars/**","/images/**").permitAll()
-//	    	.requestMatchers("/logout").permitAll()
-//	        .requestMatchers("/**").permitAll()
-	    	);
-	    	http.formLogin()
-	    	.and().logout();
-	    ;
+		    http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+		        .requestMatchers("/main", "/main/create/**", "/main/delete/**", "/user").hasAuthority("ADMIN")
+		        .requestMatchers("note/create").hasAnyAuthority("ADMIN", "OPERATORE")
+		    	.requestMatchers("/css/**", "/js/**", "/webjars/**","/images/**").permitAll()
+		    	.anyRequest().permitAll());
+		    	http.formLogin(login -> login
+		    			.defaultSuccessUrl("/user/home",true))
+		    	.logout().permitAll();
+		    ;
 	    return http.build();
 	  }
 	  
@@ -36,14 +32,12 @@ public class SecurityConfiguration {
 	  DatabaseUserDetailsService userDetailsService() {
 	    
 		  return new DatabaseUserDetailsService();
-		  
 	  }
 
 	  @Bean
 	  PasswordEncoder passwordEncoder() {
 	    
 		  return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		  
 	  }
 
 	  @Bean
@@ -56,7 +50,5 @@ public class SecurityConfiguration {
 		  authProvider.setPasswordEncoder(passwordEncoder());
 	    
 		  return authProvider;
-	  
 	  }
-	
 }

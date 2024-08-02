@@ -14,8 +14,17 @@
 </head>
 <body style="background-color: rgb(203, 250, 238);">
 	<div class="container" style="padding: 20px;">
+		<div class="row d-flex align-items-center justify-content-between">
+				<div class="col-8">
 					<h1 class="p-2"
 						th:text="|Dettaglio Operatore - Matr.${user.identifierNumber}|"></h1>
+				</div>
+				<div class="col-1">
+					<a class="btn btn-primary" style="color: whitesmoke;"
+						th:href="@{/logout}">LogOut
+					</a>
+				</div>
+		</div>
 					<div class="row d-flex">
 						<div class="col-4">
 							<img th:src="${user.urlImgProfile}" th:alt="${user.name}"
@@ -37,7 +46,7 @@
 								</li>
 								<li class="list-group-item">
 									<span><strong>Email: </strong></span>
-									<span th:text="${user.getMail()}"></span>
+									<span th:text="${user.getUsername()}"></span>
 								</li>
 								<li class="list-group-item">
 									<span><strong>Stato Operatore: </strong></span>
@@ -115,10 +124,10 @@
 																			<label for="userInputMail" class="form-label">Email Operatore</label>
 																			<input type="email" class="form-control" 
 																				id="userInputMail" placeholder="esempio@gestionale.it"
-																				th:field="*{mail}" th:errorClass="is-invalid">
-																				<div th:if="${#fields.hasErrors('mail')}" class="invalid-feedback">
+																				th:field="*{username}" th:errorClass="is-invalid">
+																				<div th:if="${#fields.hasErrors('username')}" class="invalid-feedback">
 																					<ul>
-																						<li th:each="err : ${#fields.errors('mail')}" 
+																						<li th:each="err : ${#fields.errors('username')}" 
 																							th:text="${err}">
 																						</li>
 																					</ul>

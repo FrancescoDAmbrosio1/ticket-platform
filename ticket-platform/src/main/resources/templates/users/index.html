@@ -15,63 +15,69 @@
 <title>Operatori </title>
 </head>
 <body style="background-color: rgb(203, 250, 238);">
-<div class="container" 	style="padding: 20px;">
-	<h1>Elenco Operatori</h1>
-	<table id="table-1" class="table table-striped align-items-center"
-						th:unless="${list.isEmpty()}">
-						<thead>
-							<tr>
-								<th class="col-2"> Cognome </th>
-								<th class="col-2"> Nome </th>
-								<th class="col-2"> Matricola </th>
-								<th class="col-2"> Stato </th>
-								<th class="col-2"> N° ticket</th>
-								<th class="col-2" style="text-align: center;"> Azioni</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="user : ${list}">
-								<td>
-									<span th:text="${user.getSurname()}"></span> 
-								</td>
-								<td>
-									<span th:text=" ${user.getName()}"></span>
-								</td>
-								<td>
-									<span th:text="${user.getIdentifierNumber()}"></span>
-								</td>
-								<td>
-									<span th:if="${user.userState.isPersonalState()}"
-										 class=" badge text-bg-success"
-										th:text=" Disponibile "></span>
-									<span th:unless="${user.userState.isPersonalState()}"
-									class=" badge text-bg-danger"
-										th:text="|Non Disponibile|"></span>
-								</td>
-								<td>
-									<span th:text="${user.tickets.size()}"></span>
-								</td>
-								<td class="d-flex justify-content-center gap-2">
-									<a class="btn btn-primary" style="color: whitesmoke;"
-										th:href="@{|/user/show/${user.id}|}"><i class="bi bi-search"></i>
-									</a>
-									<form th:action="@{'/user/delete/{id}'(id=${user.id})}"
-										method="post">
-										<button class="btn btn-danger" type="submit" id="submitButton"
-											style=" color: whitesmoke;"
-											th:data-confirm-delete="|Sei sicuro di voler cancellare l'Operatore?|"
-											onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
-											<i class="bi bi-trash"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-						</tbody>
-					</table>			
-		<div th:if="${list.isEmpty()}">
-			<span> Non sono presenti Operatori nel DataBase </span>
-		</div>
+<!-- Header -->
+<div th:insert="fragments::navbar">
 </div>
+<!-- /Header -->
+<!-- Main -->
+	<div class="container" 	style="padding: 20px;">
+		<h1>Elenco Operatori</h1>
+		<table id="table-1" class="table table-striped align-items-center"
+							th:unless="${list.isEmpty()}">
+							<thead>
+								<tr>
+									<th class="col-2"> Cognome </th>
+									<th class="col-2"> Nome </th>
+									<th class="col-2"> Matricola </th>
+									<th class="col-2"> Stato </th>
+									<th class="col-2"> N° ticket</th>
+									<th class="col-2" style="text-align: center;"> Azioni</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="user : ${list}">
+									<td>
+										<span th:text="${user.getSurname()}"></span> 
+									</td>
+									<td>
+										<span th:text=" ${user.getName()}"></span>
+									</td>
+									<td>
+										<span th:text="${user.getIdentifierNumber()}"></span>
+									</td>
+									<td>
+										<span th:if="${user.userState.isPersonalState()}"
+											 class=" badge text-bg-success"
+											th:text=" Disponibile "></span>
+										<span th:unless="${user.userState.isPersonalState()}"
+										class=" badge text-bg-danger"
+											th:text="|Non Disponibile|"></span>
+									</td>
+									<td>
+										<span th:text="${user.tickets.size()}"></span>
+									</td>
+									<td class="d-flex justify-content-center gap-2">
+										<a class="btn btn-primary" style="color: whitesmoke;"
+											th:href="@{|/user/show/${user.id}|}"><i class="bi bi-search"></i>
+										</a>
+										<form th:action="@{'/user/delete/{id}'(id=${user.id})}"
+											method="post">
+											<button class="btn btn-danger" type="submit" id="submitButton"
+												style=" color: whitesmoke;"
+												th:data-confirm-delete="|Sei sicuro di voler cancellare l'Operatore?|"
+												onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
+												<i class="bi bi-trash"></i>
+											</button>
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>			
+			<div th:if="${list.isEmpty()}">
+				<span> Non sono presenti Operatori nel DataBase </span>
+			</div>
+	</div>
+<!-- /Main -->
 		
 	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>

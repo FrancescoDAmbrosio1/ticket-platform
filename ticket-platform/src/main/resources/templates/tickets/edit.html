@@ -114,7 +114,10 @@
 			</div>
 				<div class="d-flex justify-content-evenly p-3">	
 					<div>
-						<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;">Torna alla Dashboard</a>
+						<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;"
+								sec:authorize="hasAuthority('ADMIN')">Torna alla Dashboard</a>
+						<a th:href="@{|/user/show/${user.id}}" class="btn btn-primary" style="color: whitesmoke;"
+							sec:authorize="hasAuthority('OPERATORE')">Pagina iniziale</a>
 					</div>
 					<div>
 						<button type="submit" class="btn btn-primary mb-3" style="color: whitesmoke;">Salva Modifiche</button>

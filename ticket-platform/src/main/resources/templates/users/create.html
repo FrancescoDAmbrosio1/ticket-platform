@@ -70,10 +70,10 @@
 							<label for="userInputMail" class="form-label">Email Operatore</label>
 							<input type="email" class="form-control" 
 								id="userInputMail" placeholder="esempio@gestionale.it"
-								th:field="*{mail}" th:errorClass="is-invalid">
-								<div th:if="${#fields.hasErrors('mail')}" class="invalid-feedback">
+								th:field="*{username}" th:errorClass="is-invalid">
+								<div th:if="${#fields.hasErrors('username')}" class="invalid-feedback">
 									<ul>
-										<li th:each="err : ${#fields.errors('mail')}" 
+										<li th:each="err : ${#fields.errors('username')}" 
 											th:text="${err}">
 										</li>
 									</ul>
