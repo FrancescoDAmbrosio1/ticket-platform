@@ -29,8 +29,11 @@
 						</div>
 						<div class="mb-3">
 							<div class="mb-3">
-								<label for="inputNoteAuthor" class="form-label">Autore della nota</label>
-								<input 	type="hidden" id="inputNoteAuthor" th:field="*{user}">					
+									<span>Autore della nota: </span>
+									<span><strong th:text="|${user.getSurname()} ${user.getName()}|"></strong></span>
+								</div>
+<!--								<label for="inputNoteAuthor" class="form-label">Autore della nota</label>-->
+<!--								<input 	type="hidden" id="inputNoteAuthor" th:field="*{user}">					-->
 							</div>
 							<div class="mb-3">
 								<label for="inputNoteDate" class="form-label">Inserisci la data</label>
@@ -47,17 +50,19 @@
 									</textarea>	
 								</div>
 							</div>
-						</div>
 						<div style="display: flex; justify-content:space-evenly; padding-top: 20px;">
 							<div>
-								<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;">
-										Torna alla Dashboard</a>
+								<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;"
+									sec:authorize="hasAuthority('ADMIN')">Torna alla Dashboard</a>
+								<a th:href="@{|/user/show/${user.id}}" class="btn btn-primary" style="color: whitesmoke;"
+									sec:authorize="hasAuthority('OPERATORE')">Pagina iniziale</a>
 							</div>
 							<div>
 								<button type="submit" class="btn btn-primary" style="color: whitesmoke;">
 										Salva Nota</button>
 							</div>
 						</div>
+					</div>
 			</form>
 		</div>
 	</div>

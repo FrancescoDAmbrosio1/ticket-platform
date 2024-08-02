@@ -58,9 +58,9 @@
 							</thead>
 							<tbody>
 								<tr th:each="note : ${list}">
-									<td th:text="${note.getCreationNoteDate()}">
+									<td th:text="${#temporals.format(note.getCreationNoteDate(),'dd-MM-yyyy')}">
 									</td>
-									<td th:text="${note.user.getSurname()} ${note.user.getName()}
+									<td th:text="|${note.user.getSurname()} ${note.user.getName()}
 										 - Matr.${note.user.getIdentifierNumber()}|">
 									</td>
 									<td th:text="${note.getNoteText()}"></span>
