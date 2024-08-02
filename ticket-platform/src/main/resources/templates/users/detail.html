@@ -171,13 +171,13 @@
 																								</ul>
 																					  		</input>
 																						</div>
-																					<div th:if="${#fields.hasErrors('userState')}" class="invalid-feedback">
-																						<ul>
-																							<li th:each="err : ${#fields.errors('userState')}" 
-																								th:text="${err}">
-																							</li>
-																						</ul>
-																					</div>
+<!--																						<div th:if="${#fields.hasAnyErrors()}" style="color: red;">-->
+<!--																							<ul>-->
+<!--																								<li th:each="err : ${#fields.globalErrors()}">-->
+<!--																									<span th:text="${err}">-->
+<!--																								</li>-->
+<!--																							</ul>-->
+<!--																						</div>-->
 																			</div>
 																			<div class="col-6 mb-3">
 																				<div class="dropdown">
@@ -214,32 +214,41 @@
 						th:unless="${list.isEmpty()}">
 						<thead>
 							<tr>
-								<th class="col-3"> NOME </th>
-								<th class="col-2"> Stato </th>
-								<th class="col-7"> Note </th>
+								<th class="col-3">Titolo</th>
+								<th class="col-3">Categoria </th>
+								<th class="col-2">Stato </th>
+								<th class="col-4" style="text-align: center;">Azioni </th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="ticket : ${list}">
 								<td>
-									<div class="container-fluid d-flex gap-1">
-										<span th:text="${ticket.ticketTitle}"></span> 
-										<a class="btn" style="background-color: green;
-											color: whitesmoke;"
+									<span th:text=" ${ticket.ticketTitle}"></span> 
+								</td>
+								<td th:text="${ticket.category.getCategoryName()} ">
+								</td>
+								<td>
+									<span th:if="${ticket.ticketState == 'completato'}"
+											class=" badge text-bg-success"
+											th:text="Completato "></span>
+									<span th:if="${ticket.ticketState == 'daFare'}"
+											class=" badge text-bg-danger"
+											th:text="|Da Fare|"></span>
+									<span th:if="${ticket.ticketState == 'inCorso'}"
+											class=" badge text-bg-warning"
+											th:text="|In Corso|"></span>
+								</td>
+								<td>
+									<div class="container-fluid d-flex justify-content-center gap-1">
+										<a class="btn btn-primary" style="color: whitesmoke;"
 											th:href="@{|/main/show/${ticket.id}|}"><i class="bi bi-search"></i>
 										</a>
-									</div>
-								</td>
-								<td>
-									<span style="background-color: lightgreen; border-radius: 3;"
-									th:text="${ticket.ticketState}"></span>
-								</td>
-								<td>
-									<div class="container-fluid d-flex gap-1">
-										<span>N° di note</span> 
-										<a class="btn" style="background-color: green;
-											color: whitesmoke;"
-											th:href="@{/note/create}">Aggiungi Nota<i class="bi bi-plus"></i>
+										<a class="btn btn-primary" style="color: whitesmoke;"
+											th:href="@{|/main/edit/${ticket.id}|}"><i class="bi bi-pencil"></i>
+										</a>
+																		
+										<a class="btn btn-primary" style="color: whitesmoke;"
+											th:href="@{/note/create}">Aggiungi Nota
 										</a>
 									</div>
 								</td>

@@ -2,6 +2,7 @@ package org.lessons.tickets.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.lessons.tickets.model.Ticket;
 import org.lessons.tickets.model.User;
@@ -52,9 +53,10 @@ public class UserController {
 	}
 
 	@GetMapping("/show/{id}")
-	public String show(@PathVariable("id") Integer ticketId, Model model) {
+	public String show(@PathVariable("id") Integer ticketId, Model model,
+				User user) {
 		
-		model.addAttribute("list", ticketRepository.findAll());
+		model.addAttribute("list", ticketRepository.findByUser(user));
 		
 		model.addAttribute("user", userRepository.getReferenceById(ticketId));
 		
@@ -78,16 +80,46 @@ public class UserController {
 	}
 	
 	@PostMapping("/edit/{id}")
-	public String update(@Valid @ModelAttribute("user") User userPersonalState,
+	public String update(@Valid @ModelAttribute("user") User user,
 			BindingResult bindingResult, Model model) {
 		
-	
-		if(bindingResult.hasErrors()) {
+//		String identifierNumber = user.getIdentifierNumber();
+//		
+//		Optional<User> userOpt = userRepository.findByidentifierNumber(identifierNumber);
+//		
+//		if(userOpt.isPresent()) {
+//			
+//			User usingUser = userOpt.get();
+//			
+//			List<Ticket> openTicket = ticketRepository.findByUser(usingUser);
+//			
+//			if (usingUser.getUserState().isPersonalState() == false && openTicket.size() > 0) {
+//				model.addAttribute("errorMessage",
+//						"Impossibile impostare lo stato su Non Disponibile, ci sono ticket aperti o in corso.");
+//				model.addAttribute("user", usingUser);
+//				
+//				return "/show/{id}";
+//			}
+//			
+//			usingUser.setSurname(user.getSurname());
+//            usingUser.setName(user.getName());
+//            usingUser.setIdentifierNumber(user.getIdentifierNumber());
+//            usingUser.setMail(user.getMail());
+//            usingUser.setPassword(user.getPassword());
+//            usingUser.setUrlImgProfile(user.getUrlImgProfile());
+//            usingUser.setUserState(user.getUserState());
+//            usingUser.setRoles(user.getRoles());
+//            
 			
-			return "/users/detail";
-		}
+			if(bindingResult.hasErrors()) {
+				
+				return "/users/detail";
+			}
+			
+			userRepository.save(user);
+//		}
 	
-		userRepository.save(userPersonalState);
+	
 		
 		return "redirect:/user";
 		

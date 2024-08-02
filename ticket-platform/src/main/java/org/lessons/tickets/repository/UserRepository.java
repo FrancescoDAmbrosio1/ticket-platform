@@ -2,6 +2,7 @@ package org.lessons.tickets.repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.lessons.tickets.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 			
     public List<User> searchAvailableUsers();
 
+	Optional<User> findByidentifierNumber(String identifierNumber);
+	
+	Optional<User> findByUsername(String email);
 
 }
