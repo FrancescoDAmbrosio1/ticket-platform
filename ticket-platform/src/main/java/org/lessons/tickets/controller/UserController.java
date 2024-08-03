@@ -92,52 +92,63 @@ public class UserController {
 		
 		model.addAttribute("list", ticketRepository.findByUser(user));
 		
-		user = userRepository.getReferenceById(id);
+		user = userRepository.findById(id).get();
 		
 		model.addAttribute("user", user);
 		
-		return "/users/detail";
+		boolean isUserAvailable;
+		
+		List<Ticket> ticketUserList = user.getTickets();
+	 	
+	 	List<Ticket> ticketIsAvailable = new ArrayList<>();
+	 	
+	 	for (Ticket ticket: ticketUserList) {
+	 		
+	 		Object completato = "completato";
+	 		
+	 		Object ticketStateString = ticket;
+	 		
+	 		if(!ticketStateString.equals(completato)) {
+	 	       
+	 			ticketIsAvailable.add(ticket);
+	 	   }
+	 	   
+	    }
+	 	
+	 	if(ticketIsAvailable.isEmpty()) {
+	 	    
+	 	     isUserAvailable = true;    
+	 	}
+	 	
+	 	else {
+	 		isUserAvailable = false; 
+	 	    
+	 	}
+	 	
+	 	model.addAttribute("isUserAvailable", isUserAvailable);
+	 	
+	    return "/user/detail";
+
+	    
 	}
-	
+		
+			
 	@PostMapping("/edit/{id}")
-	public String update(@Valid @ModelAttribute("user") User user,
+	public String update(@Valid @ModelAttribute("user") User user, Integer id,
 			BindingResult bindingResult, Model model) {
+		
+		user = userRepository.findById(id).get();
+		
+			model.addAttribute("user", user);
 		
 		model.addAttribute("stateList", userStateRepository.findAll());
 		
 		model.addAttribute("roleList", roleRepository.findAll());
 		
-		model.addAttribute("list", ticketRepository.findByUser(user));
+		List<Ticket> userTicketList = user.getTickets();
 		
-		List<Ticket> userTicketList = ticketRepository.findByUser(user);
-		
-		boolean isUserAvailable = false;
-		
-		for(Ticket item: userTicketList) {
-			
-			if(!item.getTicketState().equals("completato")) {
-				
-				isUserAvailable = true;
-			}
-		}
-		
-		if(isUserAvailable) {
-			
-			model.addAttribute("errorMessage",
-					"Impossibile impostare lo stato su Non Disponibile, ci sono ticket aperti o in corso.");
-			
-			return "/users/detail";
-		}
-//			
-//			usingUser.setSurname(user.getSurname());
-//            usingUser.setName(user.getName());
-//            usingUser.setIdentifierNumber(user.getIdentifierNumber());
-//            usingUser.setUsername(user.getUsername());
-//            usingUser.setPassword(user.getPassword());
-//            usingUser.setUrlImgProfile(user.getUrlImgProfile());
-//            usingUser.setUserState(user.getUserState());
-//            usingUser.setRoles(user.getRoles());
-//            
+		model.addAttribute("list", userTicketList);
+
 			
 			if(bindingResult.hasErrors()) {
 				

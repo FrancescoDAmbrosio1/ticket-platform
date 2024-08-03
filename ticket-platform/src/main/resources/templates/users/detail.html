@@ -111,7 +111,8 @@
 																				</div>
 																		</div>
 																	</div>
-																	<div class="row d-flex justify-content-evenly">
+																	<div class="row d-flex justify-content-evenly"
+																		sec:authorize="hasAuthority('ADMIN')">
 																		<div class="col-6 mb-3">
 																			<label for="userInputIdentifierNumber" class="form-label">Matricola dell'Operatore</label>
 																			<input type="text" class="form-control" 
@@ -168,7 +169,23 @@
 																		</div>
 																	</div>
 																	<div class="row d-flex 	justify-content-evenly">
-																			<div class="col-6 mb-3">
+																		<div class="col-6 mb-3"
+																			sec:authorize="hasAuthority('ADMIN')">
+																			<div class="dropdown">
+																				<label for="personaleRoleInput" class="form-label">Seleziona Ruolo Operatore</label>
+																				<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+																					id="personalRoleInput" placeholder="Ruolo operatore...">
+																					<ul class="dropdown-menu" style="max-height: 200px;">
+																						<li	class="list-group-item" th:each="role: ${roleList}" >
+																							<input type="checkbox" name="role" th:value="${role.id}" th:field="*{roles}">
+																							<label th:text="${role.name}"></label>
+																						</li>
+																					</ul>
+																				</input>
+																					</div>
+																			</div>
+																			<div class="col-6 mb-3"
+																					th:if="${ticketList == false}">
 																					<div class="dropdown">
 																						<label for="personaleStateInput" class="form-label">Seleziona Stato Operatore</label>
 																						<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
@@ -185,28 +202,12 @@
 																								</ul>
 																					  		</input>
 																						</div>
-<!--																						<div th:if="${#fields.hasAnyErrors()}" style="color: red;">-->
-<!--																							<ul>-->
-<!--																								<li th:each="err : ${#fields.globalErrors()}">-->
-<!--																									<span th:text="${err}">-->
-<!--																								</li>-->
-<!--																							</ul>-->
-<!--																						</div>-->
 																			</div>
-																			<div class="col-6 mb-3">
-																				<div class="dropdown">
-																						<label for="personaleRoleInput" class="form-label">Seleziona Ruolo Operatore</label>
-																						<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
-																							id="personalRoleInput" placeholder="Ruolo operatore...">
-																							<ul class="dropdown-menu" style="max-height: 200px;">
-																								<li	class="list-group-item" th:each="role: ${roleList}" >
-																									<input type="checkbox" name="role" th:value="${role.id}" th:field="*{roles}">
-																									<label th:text="${role.name}"></label>
-																								</li>
-																							</ul>
-																						</input>
-																					</div>
-																				</div>
+<!--																			<div th:unless="${ticketList}">-->
+<!--																				<span style="text-align: center; color: red;"></strong>Attenzione:</strong>-->
+<!--																					 Non è possibile cambiare lo 'Stato Personale' poiché ci sono ticket aperti o in corso.</span>-->
+<!--																					 <span th:text="|${user.getName()} ${list.size()} ${isUserAvailable}|"></span>-->
+<!--																			</div>-->
 																	</div>
 																</div>
 																<div class="modal-footer" style="background-color: rgb(203, 250, 238);">
