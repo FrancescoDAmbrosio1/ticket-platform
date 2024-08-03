@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "note")
@@ -22,6 +23,7 @@ public class Note {
 	@Column(name = "creazione", nullable = false)
 	private LocalDate creationNoteDate;
 	
+	@NotBlank(message = "Il testo della nota è obbligatorio")
 	@Column(name = "testo", nullable = false, columnDefinition="text")
 	private String noteText;
 

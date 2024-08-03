@@ -4,10 +4,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.lessons.tickets.model.Note;
-import org.lessons.tickets.model.Ticket;
 import org.lessons.tickets.model.User;
 import org.lessons.tickets.repository.NoteRepository;
-import org.lessons.tickets.repository.TicketRepository;
 import org.lessons.tickets.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,10 +29,6 @@ public class NoteController {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private TicketRepository ticketRepository;
-	
 	
 	@GetMapping("/create")
 	public String creationPage( Model model){

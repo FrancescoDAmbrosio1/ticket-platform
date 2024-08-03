@@ -87,12 +87,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/edit/{id}")
-	public String edit(@PathVariable("id") Integer id, Model model) {
+	public String edit(@PathVariable("id") Integer id, Model model,
+			User user) {
 		
-		model.addAttribute("list", ticketRepository.findAll());
+		model.addAttribute("list", ticketRepository.findByUser(user));
 		
-		model.addAttribute("user",  userRepository.getReferenceById(id));
+		user = userRepository.getReferenceById(id);
 		
+		model.addAttribute("user", user);
 		
 		return "/users/detail";
 	}
@@ -101,28 +103,36 @@ public class UserController {
 	public String update(@Valid @ModelAttribute("user") User user,
 			BindingResult bindingResult, Model model) {
 		
-//		String identifierNumber = user.getIdentifierNumber();
-//		
-//		Optional<User> userOpt = userRepository.findByidentifierNumber(identifierNumber);
-//		
-//		if(userOpt.isPresent()) {
-//			
-//			User usingUser = userOpt.get();
-//			
-//			List<Ticket> openTicket = ticketRepository.findByUser(usingUser);
-//			
-//			if (usingUser.getUserState().isPersonalState() == false && openTicket.size() > 0) {
-//				model.addAttribute("errorMessage",
-//						"Impossibile impostare lo stato su Non Disponibile, ci sono ticket aperti o in corso.");
-//				model.addAttribute("user", usingUser);
-//				
-//				return "/show/{id}";
-//			}
+		model.addAttribute("stateList", userStateRepository.findAll());
+		
+		model.addAttribute("roleList", roleRepository.findAll());
+		
+		model.addAttribute("list", ticketRepository.findByUser(user));
+		
+		List<Ticket> userTicketList = ticketRepository.findByUser(user);
+		
+		boolean isUserAvailable = false;
+		
+		for(Ticket item: userTicketList) {
+			
+			if(!item.getTicketState().equals("completato")) {
+				
+				isUserAvailable = true;
+			}
+		}
+		
+		if(isUserAvailable) {
+			
+			model.addAttribute("errorMessage",
+					"Impossibile impostare lo stato su Non Disponibile, ci sono ticket aperti o in corso.");
+			
+			return "/users/detail";
+		}
 //			
 //			usingUser.setSurname(user.getSurname());
 //            usingUser.setName(user.getName());
 //            usingUser.setIdentifierNumber(user.getIdentifierNumber());
-//            usingUser.setMail(user.getMail());
+//            usingUser.setUsername(user.getUsername());
 //            usingUser.setPassword(user.getPassword());
 //            usingUser.setUrlImgProfile(user.getUrlImgProfile());
 //            usingUser.setUserState(user.getUserState());
@@ -135,9 +145,6 @@ public class UserController {
 			}
 			
 			userRepository.save(user);
-//		}
-	
-	
 		
 		return "redirect:/user";
 		
@@ -177,5 +184,32 @@ public class UserController {
 		
 		return "redirect:/user";
 	}
+	
+	
+	//metodi di servizio
+	
+	public User findUserLogged() {
 		
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		String username = authentication.getName();
+		
+		Optional<User> user = userRepository.findByUsername(username);
+		
+		User userLogged = user.get();
+		
+		return userLogged;
+	}
+	
+	public boolean verifyRole() {
+		
+		User userLogged =findUserLogged();
+		
+		Object i = 1;
+		
+		Boolean userRole = userLogged.getRoles().contains(i);
+		
+		return userRole;
+	}
 }

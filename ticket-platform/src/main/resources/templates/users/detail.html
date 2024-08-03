@@ -13,6 +13,11 @@
 <title th:text="|Operatore:${user.identifierNumber}|"></title>
 </head>
 <body style="background-color: rgb(203, 250, 238);">
+<div th:insert="fragments::navbar"
+		sec:authorize="hasAuthority('ADMIN')">
+</div>
+<!-- /Header -->
+<!-- Main -->
 	<div class="container" style="padding: 20px;">
 		<div class="row d-flex align-items-center justify-content-between">
 				<div class="col-8">
@@ -263,16 +268,8 @@
 				<div th:if="${list.isEmpty()}">
 					<span th:text="|Non sono presenti ticket da trattare dall'Operatore Matr. ${user.identifierNumber}" </span>
 				</div>
-
-<!--				<div style="display: flex; justify-content: space-around; text-align: center;">-->
-<!--					<a th:href="@{/note/create}" class="btn" style="background-color: green;-->
-<!--							color: whitesmoke;">Aggiungi Nota</a>			-->
-<!--					<a th:href="@{/main}" class="btn" style="background-color: green;-->
-<!--							color: whitesmoke;">Torna al Menu</a>						-->
-<!--				</div>-->
 		  	</div>
- 		
-	
+ <!-- /Main -->
 	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

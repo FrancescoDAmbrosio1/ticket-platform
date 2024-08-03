@@ -49,7 +49,7 @@ public class User {
 	@Column(name = "Url img profilo", nullable = false)
 	private String urlImgProfile;
 	
-//	@NotNull(message = "L'inserimento dello stato è obbligatorio")
+	@NotNull(message = "L'inserimento dello stato è obbligatorio")
 	@ManyToOne
 	@JoinColumn(name = "userState_id")
 	private UserState userState;
