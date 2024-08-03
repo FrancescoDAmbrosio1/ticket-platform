@@ -1,5 +1,6 @@
 package org.lessons.tickets.controller;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.lessons.tickets.model.Note;
@@ -32,6 +33,9 @@ public class NoteController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private TicketRepository ticketRepository;
+	
 	
 	@GetMapping("/create")
 	public String creationPage( Model model){
@@ -42,7 +46,7 @@ public class NoteController {
 		
 		model.addAttribute("user", userLogged);
 		
-		return "/notes/create";
+		return "tickets/show";
 	}
 	
 	
@@ -56,9 +60,11 @@ public class NoteController {
 		
 		note.setUser(userLogged);
 		
+		note.setCreationNoteDate(LocalDate.now());
+		
 		if(bindingResult.hasErrors()) {
 			
-			return "notes/create";
+			return "tickets/show";
 		}
 		
 		noteRepository.save(note);

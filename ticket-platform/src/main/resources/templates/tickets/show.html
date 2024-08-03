@@ -75,17 +75,72 @@
 						<span> Non sono presenti note per il ticket selezionato </span>
 					</div>
 				<div class="d-flex justify-content-evenly p-3">
-					<a th:href="@{/note/create}" class="btn btn-primary" style="color: whitesmoke;">
-							Aggiungi Nota</a>			
 					<a th:href="@{/main}" class="btn btn-primary" style="color: whitesmoke;"
-							sec:authorize="hasAuthority('ADMIN')">
-							Torna alla Dashboard</a>
+						sec:authorize="hasAuthority('ADMIN')">
+						Torna alla Dashboard</a>
 					<a th:href="@{|/user/show/${user.id}}" class="btn btn-primary" style="color: whitesmoke;"
-							sec:authorize="hasAuthority('OPERATORE')">
-							Pagina iniziale</a>						
-				</div>
-		  	</div>
- 		</div>
+						sec:authorize="hasAuthority('OPERATORE')">
+						Pagina iniziale</a>	
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+							data-bs-target="#exampleModal" style="color: whitesmoke;"
+							th:action="@{/note/create}"> Aggiungi Note 
+					</button>				
+					<!-- Modal -->
+					<form id="statoPersonale-form"
+						th:object="${note}" 
+						th:action="@{/note/create}"
+						method="post">
+						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header" style="background-color: rgb(203, 250, 238);">
+										<h1 class="modal-title fs-5" id="exampleModalLabel" th:text="|${user.getName()} Aggiungi Nota|"></h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body" style="background-color: whitesmoke;">
+										<div class="row d-flex justify-content-evenly p-3">
+											<div class="mb-3">
+												<span>Autore della nota: </span>
+												<span><strong th:text="|${user.getSurname()} ${user.getName()}|"></strong></span>
+											</div>
+											<input 	type="hidden"  th:field="*{user}">					
+										</div>
+										<div class="mb-3">
+											<span><strong>Attenzione: </strong>La nota sarà salvata con la data odierna</span>	
+										</div>
+											<input 	type="hidden"  th:field="*{creationNoteDate}">				
+
+										<div class="mb-3">
+											<label for="inputTickRif" class="form-label">
+												Ticket di riferimento da inserire:
+												<strong th:text="${ticket.getId()}"></strong>
+											</label>
+											<input 	type="text" th:field="*{ticket.id}"
+											placeholder="Inserire ticket di riferimento..."
+											id="inputTickRif" class="form-control" >					
+										</div>
+										<div class="mb-3">
+											<label for="ticketInputNote" class="form-label">Inserisci la nota al ticket</label>
+											<div>
+												<textarea class="form-control" aria-label="With textarea" 
+													id="ticketInputNote" placeholder="Inserisci qui il testo della nota..."
+													th:field="*{noteText}">						
+												</textarea>	
+											</div>
+										</div>	
+									</div>
+								<div class="modal-footer" style="background-color: rgb(203, 250, 238);">
+									<button type="submit" class="btn btn-primary" style=" color: whitesmoke;">
+											Salva</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>				
+			</div>
+		  </div>
+	 	</div>
 	</div>
 	
 	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
