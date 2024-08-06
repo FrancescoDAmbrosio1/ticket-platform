@@ -26,7 +26,8 @@
 				</div>
 				<div class="col-1">
 					<a class="btn btn-primary" style="color: whitesmoke;"
-						th:href="@{/logout}">LogOut
+						th:href="@{/logout}"
+						sec:authorize="hasAuthority('OPERATORE')">LogOut
 					</a>
 				</div>
 		</div>
@@ -184,8 +185,8 @@
 																				</input>
 																					</div>
 																			</div>
-																			<div class="col-6 mb-3">
-<!--																					th:if="${ticketList == true}">-->
+																			<div class="col-6 mb-3"
+																					th:if="${list.isEmpty}">
 																					<div class="dropdown">
 																						<label for="personaleStateInput" class="form-label">Seleziona Stato Operatore</label>
 																						<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
@@ -203,11 +204,10 @@
 																					  		</input>
 																						</div>
 																			</div>
-<!--																			<div th:unless="${ticketList}">-->
-<!--																				<span style="text-align: center; color: red;"></strong>Attenzione:</strong>-->
-<!--																					 Non è possibile cambiare lo 'Stato Personale' poiché ci sono ticket aperti o in corso.</span>-->
-<!--																					 <span th:text="|${user.getName()} ${list.size()} ${isUserAvailable}|"></span>-->
-<!--																			</div>-->
+																			<div th:if="${!list.isEmpty()}">
+																				<span style="text-align: center; color: red;"></strong>Attenzione:</strong>
+																					 Non è possibile cambiare lo 'Stato Personale' poiché ci sono ticket aperti o in corso.</span>
+																			</div>
 																	</div>
 																</div>
 																<div class="modal-footer" style="background-color: rgb(203, 250, 238);">

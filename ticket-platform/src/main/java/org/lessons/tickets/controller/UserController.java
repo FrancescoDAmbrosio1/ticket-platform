@@ -87,7 +87,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/edit/{id}")
-	public String edit(@PathVariable("id") Integer id, Model model,
+	public String edit(@ModelAttribute("user") @PathVariable("id") Integer id, Model model,
 			User user) {
 		
 		model.addAttribute("list", ticketRepository.findByUser(user));
@@ -95,59 +95,25 @@ public class UserController {
 		user = userRepository.findById(id).get();
 		
 		model.addAttribute("user", user);
-		
-		boolean isUserAvailable;
-		
-		List<Ticket> ticketUserList = user.getTickets();
-	 	
-	 	List<Ticket> ticketIsAvailable = new ArrayList<>();
-	 	
-	 	for (Ticket ticket: ticketUserList) {
-	 		
-	 		Object completato = "completato";
-	 		
-	 		Object ticketStateString = ticket;
-	 		
-	 		if(!ticketStateString.equals(completato)) {
-	 	       
-	 			ticketIsAvailable.add(ticket);
-	 	   }
-	 	   
-	    }
-	 	
-	 	if(ticketIsAvailable.isEmpty()) {
-	 	    
-	 	     isUserAvailable = true;    
-	 	}
-	 	
-	 	else {
-	 		isUserAvailable = false; 
-	 	    
-	 	}
-	 	
-	 	model.addAttribute("isUserAvailable", isUserAvailable);
 	 	
 	    return "/user/detail";
 
 	    
 	}
 		
-			
+	
 	@PostMapping("/edit/{id}")
-	public String update(@Valid @ModelAttribute("user") User user, Integer id,
-			BindingResult bindingResult, Model model) {
+	public String update(@Valid @ModelAttribute("user") @PathVariable("id")Integer id,
+			User user, BindingResult bindingResult, Model model) {
 		
-		user = userRepository.findById(id).get();
+		List<Ticket> userTicketList = user.getTickets();
 		
-			model.addAttribute("user", user);
+		model.addAttribute("list", userTicketList);
 		
 		model.addAttribute("stateList", userStateRepository.findAll());
 		
 		model.addAttribute("roleList", roleRepository.findAll());
 		
-		List<Ticket> userTicketList = user.getTickets();
-		
-		model.addAttribute("list", userTicketList);
 
 			
 			if(bindingResult.hasErrors()) {
@@ -156,8 +122,14 @@ public class UserController {
 			}
 			
 			userRepository.save(user);
-		
-		return "redirect:/user";
+			
+			if(verifyRole()) {
+				
+				return "redirect:/user";
+
+			}
+			
+			return "redirect:/user/show/{id}";
 		
 	}
 	
